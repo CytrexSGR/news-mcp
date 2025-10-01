@@ -142,7 +142,7 @@ The News MCP System is a modular, scalable platform for RSS feed aggregation wit
 - **Jitter:** Random variance to distribute load
 
 **Current Scale:**
-- 37 active feeds
+- 41 active feeds
 - 35,040+ fetch operations logged
 - ~450 new articles per day
 
@@ -595,7 +595,7 @@ GET /api/health/
 |-----------|------------|---------|---------|----------|
 | Web Server | 1000+ req/s | <100ms | 200MB | - |
 | Analysis Worker | 30 items/min | 2-5s/item | 500MB | - |
-| Feed Scheduler | 37 feeds/hr | <1s/fetch | 100MB | - |
+| Feed Scheduler | 41 feeds/hr | <1s/fetch | 100MB | - |
 | Database | 10k queries/s | <10ms | 2GB | 50GB+ |
 | MCP Server | 100 req/s | <50ms | 150MB | - |
 
@@ -623,7 +623,7 @@ GET /api/health/
 - Single application with clean module separation
 - Repository pattern for data access
 - Background workers in same codebase
-- Suitable for current scale (37 feeds, 11K articles)
+- Suitable for current scale (41 feeds, 11K articles)
 
 ### Phase 1 (Q1-Q2 2026) - Database Optimization
 - Read replicas for analytics queries
@@ -686,5 +686,5 @@ GET /api/health/
 ---
 
 **Last Updated:** 2025-10-01
-**Architecture Version:** 4.0.0
+**Architecture Version:** 4.1.0
 **System Status:** Production Ready

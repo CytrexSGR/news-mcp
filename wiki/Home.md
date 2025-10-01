@@ -154,14 +154,14 @@ News MCP is a **Model Context Protocol (MCP) server** for intelligent RSS feed a
 
 ## 📊 Current System Status
 
-**Version:** 4.0.0
+**Version:** 4.1.0
 **Status:** ✅ Production Ready
 
 ### Metrics
-- **Feeds:** 37 active
-- **Articles:** 11,000+ items
-- **Analysis Runs:** 75+ completed
-- **Auto-Analysis:** 9 feeds (100% rollout)
+- **Feeds:** 41 active
+- **Articles:** 16,843 items
+- **Analysis Runs:** 813 completed
+- **Auto-Analysis:** 13 feeds (100% rollout)
 - **MCP Tools:** 48 available
 - **API Endpoints:** 172+
 - **Dashboards:** 11 web interfaces
@@ -188,4 +188,4 @@ This wiki is maintained by the News MCP community. To contribute:
 
 **Last Updated:** 2025-10-01
 **Wiki Version:** 1.0.0
-**Project Version:** 4.0.0
+**Project Version:** 4.1.0

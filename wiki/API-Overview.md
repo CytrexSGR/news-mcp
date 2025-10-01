@@ -346,5 +346,5 @@ Feed operations respect rate limits:
 ---
 
 **Last Updated:** 2025-10-01
-**API Version:** 4.0.0
+**API Version:** 4.1.0
 **Total Endpoints:** 172

@@ -274,6 +274,6 @@ WHERE fh.status != 'healthy';
 ---
 
 **Last Updated:** 2025-10-01
-**Schema Version:** 4.0.0
+**Schema Version:** 4.1.0
 **Total Tables:** 30
 **Total Rows:** 54,000+
