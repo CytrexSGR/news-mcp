@@ -128,6 +128,198 @@ Measures potential for rapid market changes:
 
 ---
 
+## Geopolitical Analysis
+
+News MCP includes comprehensive geopolitical sentiment analysis for news with international implications.
+
+### Geopolitical Score Fields
+
+#### 1. Stability Score
+**Range:** `-1.0` to `+1.0`
+
+Assesses impact on regional/global stability:
+- **+0.5 to +1.0**: Stabilizing (peace agreements, diplomatic breakthroughs)
+- **-0.2 to +0.5**: Neutral (routine diplomatic activity)
+- **-1.0 to -0.2**: Destabilizing (conflicts, political crises, sanctions)
+
+#### 2. Economic Impact
+**Range:** `0.0` to `1.0`
+
+Economic consequences of geopolitical events:
+- **0.8 - 1.0**: Major impact (trade wars, sanctions, currency crises)
+- **0.5 - 0.8**: Significant (regional trade agreements, energy deals)
+- **0.2 - 0.5**: Moderate (bilateral agreements, regulatory changes)
+- **0.0 - 0.2**: Minimal (symbolic gestures, minor policy shifts)
+
+#### 3. Security Relevance
+**Range:** `0.0` to `1.0`
+
+Military and security implications:
+- **0.8 - 1.0**: Critical (armed conflicts, major deployments)
+- **0.5 - 0.8**: High (military exercises, defense pacts)
+- **0.2 - 0.5**: Moderate (security cooperation, equipment sales)
+- **0.0 - 0.2**: Low (routine security matters)
+
+#### 4. Diplomatic Impact
+**Range:** `0.0` to `1.0` per region
+
+Multi-regional assessment:
+```json
+{
+  "global": 0.7,    // Worldwide diplomatic significance
+  "western": 0.8,   // Impact on Western alliances
+  "regional": 0.6   // Regional/local implications
+}
+```
+
+#### 5. Escalation Potential
+**Range:** `0.0` to `1.0`
+
+Likelihood of situation escalating:
+- **0.8 - 1.0**: High risk (border disputes, ultimatums, mobilizations)
+- **0.5 - 0.8**: Moderate risk (tensions rising, threats issued)
+- **0.2 - 0.5**: Low risk (manageable disagreements)
+- **0.0 - 0.2**: Minimal risk (stable situation)
+
+#### 6. Regions Affected
+**Array of ISO 3166-1 alpha-2 codes**
+
+Countries/regions directly impacted:
+```json
+["US", "CN", "JP", "EU", "MENA"]
+```
+
+Common region codes:
+- `EU`: European Union
+- `MENA`: Middle East & North Africa
+- `APAC`: Asia-Pacific
+- `LATAM`: Latin America
+
+#### 7. Impact Beneficiaries & Affected Parties
+**Arrays of country/actor codes**
+
+Who benefits and who suffers:
+```json
+{
+  "impact_beneficiaries": ["US", "JP"],  // Winners
+  "impact_affected": ["RU", "CN"]        // Losers
+}
+```
+
+#### 8. Alliance Activation
+**Array of alliance names**
+
+Which alliances may be involved:
+```json
+["NATO", "EU", "Five Eyes", "QUAD"]
+```
+
+#### 9. Conflict Type
+**Enum:** `diplomatic | economic | military | hybrid`
+
+Nature of geopolitical event:
+- **diplomatic**: Diplomatic disputes, sanctions, negotiations
+- **economic**: Trade wars, embargoes, financial measures
+- **military**: Armed conflicts, military buildups
+- **hybrid**: Multiple dimensions (e.g., sanctions + military posturing)
+
+#### 10. Time Horizon
+**Enum:** `short_term | medium_term | long_term`
+
+Expected duration of impact:
+- **short_term**: Days to weeks (immediate crisis)
+- **medium_term**: Months (ongoing situation)
+- **long_term**: Years (structural changes)
+
+#### 11. Confidence Score
+**Range:** `0.0` to `1.0`
+
+AI confidence in geopolitical assessment:
+- **0.8 - 1.0**: High confidence (clear indicators)
+- **0.5 - 0.8**: Medium confidence (some ambiguity)
+- **0.0 - 0.5**: Low confidence (insufficient information)
+
+### Geopolitical JSON Example
+
+```json
+{
+  "geopolitical": {
+    "stability_score": -0.7,
+    "economic_impact": 0.8,
+    "security_relevance": 0.9,
+    "diplomatic_impact": {
+      "global": 0.8,
+      "western": 0.9,
+      "regional": 0.7
+    },
+    "escalation_potential": 0.6,
+    "regions_affected": ["UA", "RU", "EU", "US"],
+    "impact_beneficiaries": ["US", "EU"],
+    "impact_affected": ["RU"],
+    "time_horizon": "medium_term",
+    "confidence": 0.85,
+    "alliance_activation": ["NATO", "EU"],
+    "conflict_type": "hybrid"
+  }
+}
+```
+
+### Using Geopolitical Data
+
+#### Filter High-Impact Geopolitical Events
+```python
+# Critical geopolitical developments
+SELECT * FROM items i
+JOIN item_analysis ia ON i.id = ia.item_id
+WHERE
+  ia.sentiment_json->'geopolitical'->>'stability_score' < '-0.5'
+  AND ia.sentiment_json->'geopolitical'->>'security_relevance' > '0.7'
+ORDER BY i.published DESC;
+```
+
+#### Monitor Specific Regions
+```python
+# Track Middle East developments
+SELECT * FROM items i
+JOIN item_analysis ia ON i.id = ia.item_id
+WHERE ia.sentiment_json->'geopolitical'->'regions_affected' @> '["MENA"]'
+ORDER BY i.published DESC;
+```
+
+#### Escalation Risk Alerts
+```python
+# High escalation risk situations
+if geopolitical["escalation_potential"] >= 0.8:
+    if geopolitical["security_relevance"] >= 0.7:
+        send_critical_alert("High escalation risk detected")
+```
+
+### Non-Geopolitical News
+
+For domestic or non-geopolitical news, all geopolitical fields are set to neutral/zero:
+```json
+{
+  "geopolitical": {
+    "stability_score": 0.0,
+    "economic_impact": 0.0,
+    "security_relevance": 0.0,
+    "diplomatic_impact": {"global": 0.0, "western": 0.0, "regional": 0.0},
+    "escalation_potential": 0.0,
+    "regions_affected": [],
+    "impact_beneficiaries": [],
+    "impact_affected": [],
+    "time_horizon": "short_term",
+    "confidence": 0.0,
+    "alliance_activation": [],
+    "conflict_type": "diplomatic"
+  }
+}
+```
+
+This indicates the analysis was performed but found no significant geopolitical implications.
+
+---
+
 ## Practical Usage
 
 ### Filtering Articles by Sentiment
@@ -199,7 +391,7 @@ curl "http://localhost:8000/api/items/?sort_by=impact_score&sort_desc=true"
 
 ### JSON Schema
 
-Analysis results are stored in the `item_analyses` table with the following structure:
+Analysis results are stored in the `item_analysis` table with the following structure:
 
 ```json
 {
@@ -216,7 +408,21 @@ Analysis results are stored in the `item_analyses` table with the following stru
       "time_horizon": "medium"
     },
     "urgency": 0.65,
-    "themes": ["product-launch", "revenue-growth", "market-expansion"]
+    "themes": ["product-launch", "revenue-growth", "market-expansion"],
+    "geopolitical": {
+      "stability_score": 0.0,
+      "economic_impact": 0.3,
+      "security_relevance": 0.0,
+      "diplomatic_impact": {"global": 0.2, "western": 0.1, "regional": 0.4},
+      "escalation_potential": 0.0,
+      "regions_affected": ["US", "CN"],
+      "impact_beneficiaries": ["US"],
+      "impact_affected": ["CN"],
+      "time_horizon": "medium_term",
+      "confidence": 0.75,
+      "alliance_activation": [],
+      "conflict_type": "economic"
+    }
   },
   "impact": {
     "overall": 0.72,
@@ -225,6 +431,8 @@ Analysis results are stored in the `item_analyses` table with the following stru
   "model_tag": "gpt-4.1-nano"
 }
 ```
+
+**Note:** The `geopolitical` object is **always present** in sentiment_json, even for non-geopolitical news (all fields set to 0/empty).
 
 ### Database Columns
 
