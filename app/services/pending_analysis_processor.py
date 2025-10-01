@@ -17,6 +17,8 @@ from app.domain.analysis.control import RunScope, RunParams
 from app.services.domain.analysis_service import AnalysisService
 from app.dependencies import get_analysis_service
 from app.services.auto_analysis_config import auto_analysis_config
+from app.services.queue_limiter import get_queue_limiter
+from app.services.adaptive_rate_limiter import get_rate_limiter
 
 logger = get_logger(__name__)
 
@@ -31,14 +33,29 @@ class PendingAnalysisProcessor:
         # NEW: Increased batch size for efficient processing with skip logic
         self.batch_size = auto_analysis_config.max_items_per_run
 
+        # SPRINT 1 DAY 2: Backpressure controls
+        self.queue_limiter = get_queue_limiter(max_concurrent=50)
+        self.rate_limiter = get_rate_limiter(rate_per_second=3.0)
+
     async def process_pending_queue(self) -> int:
         """
         Process pending auto-analysis jobs in batches.
+
+        IMPROVED: Now includes backpressure controls to prevent overload.
 
         Returns:
             Number of jobs processed
         """
         processed_count = 0
+
+        # SPRINT 1 DAY 2: Check queue availability before processing
+        if not self.queue_limiter.is_available():
+            logger.warning(
+                f"Queue limiter at capacity "
+                f"({self.queue_limiter.get_metrics()['active_count']}/{self.queue_limiter.max_concurrent}), "
+                f"deferring processing"
+            )
+            return 0
 
         try:
             with Session(engine) as session:
@@ -386,3 +403,17 @@ class PendingAnalysisProcessor:
         except Exception as e:
             logger.error(f"Error getting queue stats: {e}")
             return {"error": str(e)}
+
+    def get_backpressure_metrics(self) -> dict:
+        """
+        Get backpressure control metrics.
+
+        SPRINT 1 DAY 2: New method for monitoring backpressure.
+
+        Returns:
+            Combined metrics from queue limiter and rate limiter
+        """
+        return {
+            "queue_limiter": self.queue_limiter.get_metrics(),
+            "rate_limiter": self.rate_limiter.get_metrics()
+        }
