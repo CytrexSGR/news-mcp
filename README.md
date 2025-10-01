@@ -55,6 +55,7 @@ Get a visual overview of the system's capabilities:
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [MCP Integration](#mcp-integration-model-context-protocol)
+- [Sentiment Analysis Guide](docs/SENTIMENT_GUIDE.md) - **Understanding sentiment scores and analysis**
 - [API Documentation](#api-documentation)
 - [Database Schema](#database-schema)
 - [Deployment](#deployment)
