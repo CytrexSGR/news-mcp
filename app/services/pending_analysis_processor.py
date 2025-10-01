@@ -235,12 +235,34 @@ class PendingAnalysisProcessor:
         return age > timedelta(hours=self.max_age_hours)
 
     def _validate_items(self, session: Session, item_ids: list[int]) -> list[int]:
-        """Validate that items exist and return valid IDs"""
+        """
+        Validate that items exist and filter out already analyzed items.
+
+        IMPROVED: Now checks item_analysis table to skip already analyzed items,
+        preventing duplicate analysis and saving API costs.
+        """
+        from app.models import ItemAnalysis
+
         valid_ids = []
         for item_id in item_ids:
+            # Check if item exists
             item = session.get(Item, item_id)
-            if item:
-                valid_ids.append(item_id)
+            if not item:
+                continue
+
+            # IMPROVED: Check if already analyzed (idempotency)
+            # item_analysis.item_id is PRIMARY KEY, so we query directly
+            existing_analysis = session.exec(
+                select(ItemAnalysis).where(ItemAnalysis.item_id == item_id)
+            ).first()
+
+            if existing_analysis:
+                logger.debug(f"Item {item_id} already analyzed, skipping")
+                continue
+
+            valid_ids.append(item_id)
+
+        logger.info(f"Filtered {len(item_ids)} items → {len(valid_ids)} valid unanalyzed items")
         return valid_ids
 
     def _check_daily_limits(self, session: Session, feed_id: int) -> bool:

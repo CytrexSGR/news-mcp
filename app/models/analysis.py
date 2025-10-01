@@ -12,8 +12,9 @@ class ItemAnalysis(SQLModel, table=True):
     """AI analysis results for news items."""
     __tablename__ = "item_analysis"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    item_id: int = Field(foreign_key="items.id", unique=True)
+    # FIXED: item_id is the PRIMARY KEY (not id)
+    # Database schema: item_analysis.item_id is PRIMARY KEY
+    item_id: int = Field(foreign_key="items.id", primary_key=True)
     sentiment_score: Optional[float] = None
     sentiment_label: Optional[str] = Field(index=True)
     impact_score: Optional[float] = None

@@ -458,27 +458,29 @@ class AnalysisOrchestrator:
 
     def check_already_analyzed(self, item_id: int, days: int = 7) -> tuple[bool, Optional[str]]:
         """
-        Check if item was recently analyzed
-        Returns: (is_analyzed, previous_run_id)
+        Check if item was already analyzed (has results in item_analysis table).
+        This is the source of truth for analysis completion.
+
+        Returns: (is_analyzed, previous_run_id or 'existing')
         """
         from sqlmodel import Session, text
         from app.database import engine
 
+        # IMPROVED: Check item_analysis table directly (source of truth)
         query = text("""
-            SELECT ar.id, ari.completed_at
-            FROM analysis_run_items ari
-            JOIN analysis_runs ar ON ari.run_id = ar.id
-            WHERE ari.item_id = :item_id
-            AND ari.state = 'completed'
-            AND ari.completed_at > NOW() - INTERVAL :days DAY
-            ORDER BY ari.completed_at DESC
+            SELECT
+                ia.item_id,
+                ia.updated_at
+            FROM item_analysis ia
+            WHERE ia.item_id = :item_id
             LIMIT 1
         """)
 
         with Session(engine) as session:
-            result = session.execute(query, {"item_id": item_id, "days": f"{days}"}).first()
+            result = session.execute(query, {"item_id": item_id}).first()
             if result:
-                return True, f"run_{result[0]}"
+                # Item has analysis results - skip it
+                return True, "existing"
             return False, None
 
     def check_run_completion(self, run: Dict[str, Any]) -> bool:
