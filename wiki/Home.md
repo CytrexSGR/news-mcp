@@ -2,7 +2,7 @@
 
 **Enterprise RSS MCP Server** - AI-powered news aggregation with 48 native tools for Claude Desktop.
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/CytrexSGR/news-mcp/releases)
+[![Version](https://img.shields.io/badge/version-4.1.0-blue.svg)](https://github.com/CytrexSGR/news-mcp/releases)
 [![MCP](https://img.shields.io/badge/MCP-48_Tools-orange.svg)](https://modelcontextprotocol.io/)
 [![License](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -29,7 +29,7 @@ News MCP is a **Model Context Protocol (MCP) server** for intelligent RSS feed a
 - **Auto-Analysis System** - Automatic AI sentiment analysis of new feed items
 - **11 Web Dashboards** - Comprehensive monitoring and management interfaces
 - **172+ REST API Endpoints** - Complete programmatic access
-- **Enterprise-Ready** - Production-proven with 37+ active feeds, 11,000+ articles
+- **Enterprise-Ready** - Production-proven with 41 active feeds, 16,843 articles, 813 analysis runs
 
 ---
 
