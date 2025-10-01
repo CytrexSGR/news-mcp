@@ -19,6 +19,7 @@ from app.dependencies import get_analysis_service
 from app.services.auto_analysis_config import auto_analysis_config
 from app.services.queue_limiter import get_queue_limiter
 from app.services.adaptive_rate_limiter import get_rate_limiter
+from app.services.prometheus_metrics import get_metrics
 
 logger = get_logger(__name__)
 
@@ -36,6 +37,9 @@ class PendingAnalysisProcessor:
         # SPRINT 1 DAY 2: Backpressure controls
         self.queue_limiter = get_queue_limiter(max_concurrent=50)
         self.rate_limiter = get_rate_limiter(rate_per_second=3.0)
+
+        # SPRINT 1 DAY 3: Prometheus metrics
+        self.metrics = get_metrics()
 
     async def process_pending_queue(self) -> int:
         """
@@ -58,6 +62,14 @@ class PendingAnalysisProcessor:
             return 0
 
         try:
+            # SPRINT 1 DAY 3: Update queue metrics
+            queue_metrics = self.queue_limiter.get_metrics()
+            self.metrics.update_queue_metrics(
+                depth=queue_metrics['active_count'],
+                active=queue_metrics['active_count'],
+                utilization=queue_metrics['utilization_pct']
+            )
+
             with Session(engine) as session:
                 # Get pending jobs, limited to batch size
                 pending_jobs = session.exec(
@@ -72,6 +84,9 @@ class PendingAnalysisProcessor:
                     return 0
 
                 logger.info(f"Processing batch of {len(pending_jobs)} pending auto-analysis jobs")
+
+                # SPRINT 1 DAY 3: Record batch size
+                self.metrics.batch_size.observe(len(pending_jobs))
 
                 # Group jobs by feed for better batching
                 jobs_by_feed = {}
@@ -325,8 +340,13 @@ class PendingAnalysisProcessor:
                     job.processed_at = datetime.utcnow()
                     job.analysis_run_id = analysis_run_id
                     session.commit()
+
+                    # SPRINT 1 DAY 3: Record metrics
+                    for item_id in job.item_ids:
+                        self.metrics.record_item_processed("completed", "auto")
         except Exception as e:
             logger.error(f"Error marking job {job_id} as completed: {e}")
+            self.metrics.record_error("mark_completed_failed", "pending_processor")
 
     def _mark_job_failed(self, job_id: int, error_message: str):
         """Mark job as failed"""
@@ -338,8 +358,14 @@ class PendingAnalysisProcessor:
                     job.processed_at = datetime.utcnow()
                     job.error_message = error_message[:500]
                     session.commit()
+
+                    # SPRINT 1 DAY 3: Record metrics
+                    for item_id in job.item_ids:
+                        self.metrics.record_item_processed("failed", "auto")
+                    self.metrics.record_error("job_failed", "pending_processor")
         except Exception as e:
             logger.error(f"Error marking job {job_id} as failed: {e}")
+            self.metrics.record_error("mark_failed_failed", "pending_processor")
 
     def cleanup_old_jobs(self, days: int = 7):
         """
