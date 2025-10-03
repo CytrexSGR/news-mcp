@@ -1,9 +1,9 @@
 # NAVIGATOR.md – News-MCP System-Navigator
 
 **Zweck:** Zentrale Orientierung für strukturierte Entwicklung
-**Version:** 4.2.0
-**Stand:** 2025-10-02
-**Aktueller Fokus:** Production-Ready - Phase 2 Complete, Auto-Analysis 100% Rollout, Storage Monitoring Added
+**Version:** 4.3.0
+**Stand:** 2025-10-03
+**Aktueller Fokus:** Production-Ready - Phase 3 Complete, Content Distribution LLM Instructions, Modular Enrichment Ready
 
 ---
 
@@ -37,6 +37,12 @@
 | **Template System** | | |
 | Templates API | `app/api/templates.py` | ✅ Produktiv |
 | Template Manager | `app/services/dynamic_template_manager.py` | ✅ Hot-Reload |
+| | | |
+| **Content Distribution (Phase 1 ✅)** | | |
+| Content Templates | `app/api/v2/templates.py` | ✅ Produktiv (LLM Instructions) |
+| Generated Content | `app/api/v2/content.py` | ✅ Produktiv |
+| Content Worker | `app/worker/content_generator_worker.py` | ✅ Läuft (PID 205560) |
+| Content Queue | `pending_content_generation` | ✅ Async Processing |
 | | | |
 | **Processing** | | |
 | Processors API | `app/api/processors.py` | ✅ Produktiv |
@@ -285,7 +291,44 @@
 
 ---
 
-### 📋 Phase 3: Advanced Features (Q4 2025)
+### ✅ Phase 3: Content Distribution - LLM Instructions (ABGESCHLOSSEN - 2025-10-03)
+
+#### ✅ Sprint 1: Structured Prompt System
+- [x] Migration: Enhanced LLM fields (`3d13c4217df7`)
+  - [x] `system_instruction` (TEXT) - Role & Constraints
+  - [x] `output_format` (VARCHAR) - markdown/html/json
+  - [x] `output_constraints` (JSONB) - Forbidden/Required elements
+  - [x] `few_shot_examples` (JSONB) - Example outputs
+  - [x] `validation_rules` (JSONB) - Post-generation checks
+  - [x] `enrichment_config` (JSONB) - Placeholder für Phase 2
+- [x] Model Update (`ContentTemplate`)
+  - [x] Alle neuen Felder hinzugefügt
+  - [x] Abwärtskompatibilität mit `llm_prompt_template`
+- [x] Worker Logic Update (`content_generator_worker.py:291-400`)
+  - [x] Structured Prompts: System + Constraints + Examples + Validation
+  - [x] Constraint Enforcement (forbidden: code_blocks, etc.)
+  - [x] Few-shot Learning Integration
+  - [x] Validation Reminders
+- [x] Example Template erstellt
+  - [x] "Security Intelligence Brief" mit vollständigen Instruktionen
+  - [x] Output Constraints: NO code blocks, only prose
+  - [x] Validation Rules: min_word_count, require_sources
+- [x] Testing
+  - [x] Content Generation erfolgreich (Job ID 2)
+  - [x] ✅ Kein Code-Output (nur analytische Prosa)
+  - [x] ✅ Professioneller Security-Briefing-Stil
+- [x] Documentation
+  - [x] Database-Schema.md (Content Distribution Tabellen)
+  - [x] NAVIGATOR.md (Phase 3 Complete)
+
+**Ergebnis:**
+- ✅ Modular erweiterbar für Phase 2 (Enrichment: CVE, Web-Search)
+- ✅ Template-System bereit für komplexe Analyseberichte
+- ✅ LLM generiert nur Prosa (keine Code-Blöcke)
+
+---
+
+### 📋 Phase 4: Advanced Features (Q4 2025)
 - [ ] Smart Scheduling
   - [ ] Adaptive Intervals basierend auf Feed Activity
   - [ ] Priority Queues

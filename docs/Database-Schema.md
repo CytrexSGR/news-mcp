@@ -407,6 +407,215 @@ psql -h localhost -U news_user -d news_db -c "\d+ tablename"
 
 ---
 
+## Content Distribution System (Phase 1 Complete - 2025-10-03)
+
+### `content_templates` - Content Generation Templates
+
+Template definitions for LLM-based content generation with structured prompts.
+
+```sql
+Table "public.content_templates"
+     Column         |            Type             | Nullable |              Default
+--------------------+-----------------------------+----------+-----------------------------------
+ id                 | integer                     | not null | nextval('content_templates_id_seq')
+ name               | character varying(200)      | not null |
+ description        | text                        |          |
+ target_audience    | character varying(100)      |          |
+
+ -- Article Selection
+ selection_criteria | jsonb                       | not null | -- Keywords, timeframe, scores
+
+ -- Content Structure
+ content_structure  | jsonb                       | not null | -- Sections, max_words, etc.
+
+ -- LLM Configuration (Legacy)
+ llm_prompt_template| text                        | not null | -- User prompt
+ llm_model          | character varying(50)       | not null | 'gpt-4o-mini'
+ llm_temperature    | numeric(3,2)                | not null | 0.7
+
+ -- Enhanced LLM Instructions (Phase 1)
+ system_instruction | text                        |          | -- Role & constraints
+ output_format      | character varying(50)       | not null | 'markdown' -- html/json
+ output_constraints | jsonb                       |          | -- Forbidden/required elements
+ few_shot_examples  | jsonb                       |          | -- Example outputs
+ validation_rules   | jsonb                       |          | -- Post-generation checks
+
+ -- Enrichment Placeholder (Phase 2 - Future)
+ enrichment_config  | jsonb                       |          | -- CVE lookup, web search, etc.
+
+ -- Scheduling & Status
+ generation_schedule| character varying(100)      |          | -- Cron expression
+ is_active          | boolean                     | not null | true
+ created_at         | timestamp without time zone | not null |
+ updated_at         | timestamp without time zone | not null |
+ version            | integer                     | not null | 1
+ tags               | jsonb                       |          |
+
+Indexes:
+    "content_templates_pkey" PRIMARY KEY (id)
+    "uq_template_name" UNIQUE (name)
+    "idx_templates_active" (is_active)
+    "idx_templates_schedule" (generation_schedule)
+
+Referenced By:
+    - generated_content.template_id (CASCADE DELETE)
+    - distribution_channels.template_id (CASCADE DELETE)
+    - pending_content_generation.template_id (CASCADE DELETE)
+```
+
+**Phase 1 Features (Implemented):**
+- ✅ Structured system prompts (role definition, constraints)
+- ✅ Output format control (markdown/html/json)
+- ✅ Constraint enforcement (forbidden: code blocks, required: sources)
+- ✅ Few-shot learning examples
+- ✅ Validation rules (min/max word count, source citations)
+- ✅ Modular architecture ready for Phase 2 enrichment
+
+**Example Configuration:**
+```json
+{
+  "system_instruction": "You are a senior security analyst...\nIMPORTANT: NO code blocks, only prose analysis.",
+  "output_constraints": {
+    "forbidden": ["code_blocks", "shell_commands"],
+    "required": ["sources", "executive_summary"],
+    "min_word_count": 500,
+    "max_word_count": 2000
+  },
+  "validation_rules": {
+    "require_sources": true,
+    "check_for_code": true
+  },
+  "enrichment_config": null  // Reserved for Phase 2
+}
+```
+
+**Common Queries:**
+```sql
+-- Get active templates with LLM instructions
+SELECT name, system_instruction, output_constraints
+FROM content_templates
+WHERE is_active = true;
+
+-- Find templates using specific constraints
+SELECT name, output_constraints->'forbidden' as forbidden_elements
+FROM content_templates
+WHERE output_constraints ? 'forbidden';
+```
+
+---
+
+### `generated_content` - LLM-Generated Reports
+
+Stores generated content instances from templates.
+
+```sql
+Table "public.generated_content"
+     Column                 |       Type       | Nullable | Default
+----------------------------+------------------+----------+---------
+ id                         | integer          | not null |
+ template_id                | integer          | not null | FK -> content_templates
+
+ -- Generated Content
+ title                      | varchar(500)     |          |
+ content_html               | text             |          |
+ content_markdown           | text             |          |
+ content_json               | jsonb            |          |
+
+ -- Metadata
+ generated_at               | timestamp        | not null |
+ generation_job_id          | varchar(100)     |          |
+
+ -- Source Tracking
+ source_article_ids         | integer[]        | not null | -- Articles used
+ articles_count             | integer          | not null |
+
+ -- Quality Metrics
+ word_count                 | integer          |          |
+ generation_cost_usd        | numeric          |          |
+ generation_time_seconds    | integer          |          |
+ llm_model_used             | varchar(50)      |          |
+
+ -- Status
+ status                     | varchar(20)      | not null | 'generated'
+ published_at               | timestamp        |          |
+ error_message              | text             |          |
+
+Indexes:
+    "generated_content_pkey" PRIMARY KEY (id)
+    "idx_content_template" (template_id)
+    "idx_content_generated_at" (generated_at DESC)
+    "idx_content_status" (status)
+
+Foreign Keys:
+    template_id -> content_templates(id) ON DELETE CASCADE
+```
+
+**Worker:** `app/worker/content_generator_worker.py`
+**Queue Table:** `pending_content_generation`
+
+---
+
+### `pending_content_generation` - Content Generation Queue
+
+Queue for async content generation jobs.
+
+```sql
+Table "public.pending_content_generation"
+     Column             |       Type       | Nullable | Default
+------------------------+------------------+----------+---------
+ id                     | integer          | not null |
+ template_id            | integer          | not null | FK -> content_templates
+ status                 | varchar(20)      | not null | 'pending'
+ created_at             | timestamp        | not null |
+ started_at             | timestamp        |          |
+ completed_at           | timestamp        |          |
+ worker_id              | varchar(100)     |          |
+ generated_content_id   | integer          |          | FK -> generated_content
+ error_message          | text             |          |
+ retry_count            | integer          | not null | 0
+ triggered_by           | varchar(50)      | not null | 'manual'
+
+Indexes:
+    "pending_content_generation_pkey" PRIMARY KEY (id)
+    "idx_pcg_status" (status)
+    "idx_pcg_created" (created_at)
+
+Foreign Keys:
+    template_id -> content_templates(id) ON DELETE CASCADE
+```
+
+**Statuses:** `pending` → `processing` → `completed`/`failed`
+
+---
+
+### `distribution_channels` - Content Distribution
+
+Channel configurations for distributing generated content (email, web, RSS, API).
+
+```sql
+Table "public.distribution_channels"
+     Column      |       Type       | Nullable | Default
+-----------------+------------------+----------+---------
+ id              | integer          | not null |
+ template_id     | integer          | not null | FK -> content_templates
+ channel_type    | varchar(20)      | not null | -- email/web/rss/api
+ channel_name    | varchar(200)     | not null |
+ channel_config  | jsonb            | not null |
+ is_active       | boolean          | not null | true
+ created_at      | timestamp        | not null |
+ last_used_at    | timestamp        |          |
+
+Indexes:
+    "distribution_channels_pkey" PRIMARY KEY (id)
+    "idx_dc_template" (template_id)
+    "idx_dc_type_active" (channel_type, is_active)
+
+Foreign Keys:
+    template_id -> content_templates(id) ON DELETE CASCADE
+```
+
+---
+
 ## Storage Statistics (Live Monitoring)
 
 **Endpoint:** `GET /api/metrics/storage/stats`
