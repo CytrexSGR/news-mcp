@@ -1,0 +1,891 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " News MCP" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5] [cursor=pointer]: 
+        - text: News MCP
+      - generic [ref=e7]:
+        - link " Feeds" [ref=e8] [cursor=pointer]:
+          - /url: /admin/feeds
+          - generic [ref=e9] [cursor=pointer]: 
+          - text: Feeds
+        - link " Articles" [ref=e10] [cursor=pointer]:
+          - /url: /admin/items
+          - generic [ref=e11] [cursor=pointer]: 
+          - text: Articles
+        - link " Analysis" [ref=e12] [cursor=pointer]:
+          - /url: /admin/analysis
+          - generic [ref=e13] [cursor=pointer]: 
+          - text: Analysis
+        - link " Auto-Analysis" [ref=e14] [cursor=pointer]:
+          - /url: /admin/auto-analysis
+          - generic [ref=e15] [cursor=pointer]: 
+          - text: Auto-Analysis
+        - link " Manager" [ref=e16] [cursor=pointer]:
+          - /url: /admin/manager
+          - generic [ref=e17] [cursor=pointer]: 
+          - text: Manager
+        - link " Statistics" [ref=e18] [cursor=pointer]:
+          - /url: /admin/statistics
+          - generic [ref=e19] [cursor=pointer]: 
+          - text: Statistics
+        - link " Database" [ref=e20] [cursor=pointer]:
+          - /url: /admin/database
+          - generic [ref=e21] [cursor=pointer]: 
+          - text: Database
+        - link " Health" [ref=e22] [cursor=pointer]:
+          - /url: /admin/health
+          - generic [ref=e23] [cursor=pointer]: 
+          - text: Health
+  - generic [ref=e24]:
+    - generic [ref=e25]:
+      - heading "Articles Stream" [level=1] [ref=e26]
+      - group [ref=e27]:
+        - button "Last Hour" [ref=e28] [cursor=pointer]
+        - button "Today" [ref=e29] [cursor=pointer]
+        - button "This Week" [ref=e30] [cursor=pointer]
+    - generic [ref=e31]:
+      - textbox "Search articles..." [ref=e33]
+      - combobox [ref=e35]:
+        - option "All Categories" [selected]
+        - option "Asien-Pazifik"
+        - option "Business & Wirtschaftsmagazine"
+        - option "Kryptowährungen"
+        - option "Nachrichten International"
+        - option "Politik & Analyse"
+        - option "Technologie & Innovation"
+        - option "TestCategory_Fixed"
+        - option "Wirtschaft & Finanzen"
+      - combobox [ref=e37]:
+        - option "All Feeds" [selected]
+        - option "ABC News Top Stories TEST"
+        - option "AI News"
+        - option "Axios"
+        - option "Bloomberg"
+        - option "CNBC World"
+        - option "CNN International"
+        - option "Crisis Group - CrisisWatch"
+        - option "DER SPIEGEL International"
+        - option "Deutsche Welle"
+        - option "Euronews"
+        - option "European Council on Foreign Relations (ECFR)"
+        - option "FIXED"
+        - option "Financial Times World Economy"
+        - option "Foreign Affairs"
+        - option "Foreign Policy"
+        - option "Global Voices"
+        - option "Human Security Centre"
+        - option "IEEE Spectrum"
+        - option "Japan Times"
+        - option "Just Security"
+        - option "MIT Technology Review"
+        - option "NYT"
+        - option "Quartz"
+        - option "Sky News World"
+        - option "South China Morning Post"
+        - option "TechCrunch TEST"
+        - option "TechMeme"
+        - option "Test"
+        - option "The Guardian World"
+        - option "The Independent World"
+        - option "TheNextWeb"
+        - option "Time World News"
+        - option "Vox World Politics"
+        - option "Wall Street Journal"
+        - option "Washington Post World News"
+        - option "Wired"
+        - option "aljazeera"
+        - option "coindesk"
+        - option "cointelegraph"
+        - option "nbc news"
+        - option "https://test.com/feed"
+    - generic [ref=e38]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "The Party That Ruled Japan for Decades Is in Danger of Crumbling" [level=5] [ref=e43]:
+            - link "The Party That Ruled Japan for Decades Is in Danger of Crumbling" [ref=e44] [cursor=pointer]:
+              - /url: https://www.bloomberg.com/news/features/2025-10-01/who-could-be-japan-s-next-pm-party-in-power-for-decades-in-danger-of-crumbling
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - generic [ref=e47]: 
+              - text: 01.10.2025 21:00
+            - generic [ref=e48]:
+              - generic [ref=e49]: 
+              - text: Bloomberg
+            - generic [ref=e50]:
+              - generic [ref=e51]: 
+              - text: Yoshiaki Nohara
+          - paragraph
+          - paragraph [ref=e52]: The Liberal Democratic Party picks a new leader as it struggles to restore its fortunes
+          - paragraph
+        - generic [ref=e55]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e57]
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: 🔴 Negative (-0.6)
+              - generic [ref=e61]: • 80% confident
+            - generic [ref=e62]:
+              - strong [ref=e63]: "Market:"
+              - text: 📉 Bearish (0.7) • Medium-term
+            - generic [ref=e64]:
+              - strong [ref=e65]: "Impact:"
+              - text: "⚡ 0.6 • Volatility: 📈 0.7"
+            - generic [ref=e66]:
+              - strong [ref=e67]: "Urgency:"
+              - text: ⏰ 0.7
+            - generic [ref=e68]:
+              - strong [ref=e69]: "Themes:"
+              - text: 🏷️ political • 🏷️ leadership • 🏷️ stability
+        - generic [ref=e71]:
+          - generic [ref=e73]: 🌍 Geopolitical
+          - generic [ref=e74]:
+            - generic [ref=e75]: "🔴 Stability: -0.7"
+            - generic [ref=e76]: "🛡️ Security: 0.2"
+            - generic [ref=e77]: "📈 Escalation: 0.6"
+            - generic [ref=e78]: "Affected: JP"
+            - generic [ref=e79]: "Benefits: JP"
+            - generic [ref=e80]: "Type: diplomatic"
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - heading "As Trump threatens mass layoffs during government shutdown, agency begins using AI lawnmowers" [level=5] [ref=e85]:
+            - link "As Trump threatens mass layoffs during government shutdown, agency begins using AI lawnmowers" [ref=e86] [cursor=pointer]:
+              - /url: https://www.independent.co.uk/news/world/americas/us-politics/trump-government-layoffs-ai-lawnmowers-b2837609.html
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - generic [ref=e89]: 
+              - text: 01.10.2025 20:59
+            - generic [ref=e90]:
+              - generic [ref=e91]: 
+              - text: The Independent World
+            - generic [ref=e92]:
+              - generic [ref=e93]: 
+              - text: Katie Hawkinson
+          - paragraph
+          - paragraph [ref=e94]: Interior Department staff have been told to take their work devices home so they can monitor layoff notifications
+          - paragraph
+        - generic [ref=e97]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e99]
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - generic [ref=e102]: ⚪ Neutral (0.0)
+              - generic [ref=e103]: • 60% confident
+            - generic [ref=e104]:
+              - strong [ref=e105]: "Market:"
+              - text: ➡️ Neutral • Short-term
+            - generic [ref=e106]:
+              - strong [ref=e107]: "Impact:"
+              - text: "⚡ 0.4 • Volatility: 📈 0.3"
+            - generic [ref=e108]:
+              - strong [ref=e109]: "Urgency:"
+              - text: ⏰ 0.7
+            - generic [ref=e110]:
+              - strong [ref=e111]: "Themes:"
+              - text: 🏷️ technology • 🏷️ government • 🏷️ labor
+        - generic [ref=e113]: No geopolitical data
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - heading "Death of author Hunter S Thompson to be reviewed by Colorado authorities 20 years later" [level=5] [ref=e118]:
+            - link "Death of author Hunter S Thompson to be reviewed by Colorado authorities 20 years later" [ref=e119] [cursor=pointer]:
+              - /url: https://www.independent.co.uk/news/world/americas/author-hunter-s-thompson-death-review-b2837602.html
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - generic [ref=e122]: 
+              - text: 01.10.2025 20:55
+            - generic [ref=e123]:
+              - generic [ref=e124]: 
+              - text: The Independent World
+            - generic [ref=e125]:
+              - generic [ref=e126]: 
+              - text: Kelly Rissman
+          - paragraph
+          - paragraph [ref=e127]: The Colorado Bureau of Investigation will give an ‘independent perspective’ into Fear and Loathing in Las Vegas ’ author’s 2005 suicide
+          - paragraph
+        - generic [ref=e130]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e132]
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]: ⚪ Neutral (0.0)
+              - generic [ref=e136]: • 60% confident
+            - generic [ref=e137]:
+              - strong [ref=e138]: "Market:"
+              - text: ➡️ Neutral • Long-term
+            - generic [ref=e139]:
+              - strong [ref=e140]: "Impact:"
+              - text: "⚡ 0.3 • Volatility: 📈 0.2"
+            - generic [ref=e141]:
+              - strong [ref=e142]: "Urgency:"
+              - text: ⏰ 0.2
+            - generic [ref=e143]:
+              - strong [ref=e144]: "Themes:"
+              - text: 🏷️ max • 🏷️ 6 • 🏷️ strings
+        - generic [ref=e146]: No geopolitical data
+      - generic [ref=e149]:
+        - generic [ref=e150]:
+          - heading "Vance uses false claims to pin shutdown blame on Democrats as White House warns of layoffs" [level=5] [ref=e151]:
+            - link "Vance uses false claims to pin shutdown blame on Democrats as White House warns of layoffs" [ref=e152] [cursor=pointer]:
+              - /url: https://www.theguardian.com/us-news/2025/oct/01/jd-vance-government-shutdown-layoffs
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]: 
+              - text: 01.10.2025 20:53
+            - generic [ref=e156]:
+              - generic [ref=e157]: 
+              - text: The Guardian World
+            - generic [ref=e158]:
+              - generic [ref=e159]: 
+              - text: David Smith in Washington
+          - paragraph
+          - paragraph [ref=e160]: Vice-president falsely says Democrats calling for billions for ‘healthcare for illegal aliens’ as funding deadlock continues
+          - paragraph [ref=e161]: JD Vance, the US vice-president, used false claims to blame Democr...
+        - generic [ref=e164]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e166]
+          - generic [ref=e167]:
+            - generic [ref=e168]:
+              - generic [ref=e169]: 🔴 Negative (-0.8)
+              - generic [ref=e170]: • 90% confident
+            - generic [ref=e171]:
+              - strong [ref=e172]: "Market:"
+              - text: 📉 Bearish (0.7) • Short-term
+            - generic [ref=e173]:
+              - strong [ref=e174]: "Impact:"
+              - text: "⚡ 0.7 • Volatility: 📈 0.8"
+            - generic [ref=e175]:
+              - strong [ref=e176]: "Urgency:"
+              - text: ⏰ 0.9
+            - generic [ref=e177]:
+              - strong [ref=e178]: "Themes:"
+              - text: 🏷️ government_shutdown • 🏷️ fiscal_politics • 🏷️ US_politics
+        - generic [ref=e180]:
+          - generic [ref=e182]: 🌍 Geopolitical
+          - generic [ref=e183]:
+            - generic [ref=e184]: "🔴 Stability: -0.6"
+            - generic [ref=e185]: "🛡️ Security: 0.2"
+            - generic [ref=e186]: "📈 Escalation: 0.7"
+            - generic [ref=e187]: "Affected: US"
+            - generic [ref=e188]: "Benefits: US"
+            - generic [ref=e189]: "Type: economic"
+      - generic [ref=e192]:
+        - generic [ref=e193]:
+          - 'heading "Government shutdown live: No end in sight as senators leave DC until Friday and White House threatens ‘imminent’ layoffs" [level=5] [ref=e194]':
+            - 'link "Government shutdown live: No end in sight as senators leave DC until Friday and White House threatens ‘imminent’ layoffs" [ref=e195] [cursor=pointer]':
+              - /url: https://www.independent.co.uk/news/world/americas/us-politics/government-shutdown-2025-live-trump-spending-bill-b2836780.html
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - generic [ref=e198]: 
+              - text: 01.10.2025 20:53
+            - generic [ref=e199]:
+              - generic [ref=e200]: 
+              - text: The Independent World
+            - generic [ref=e201]:
+              - generic [ref=e202]: 
+              - text: Mike Bedigan,Eric Garcia and Rachel Dobkin
+          - paragraph
+          - paragraph [ref=e203]: The shutdown began at midnight Wednesday and has been ongoing for over 16 hours
+          - paragraph
+        - generic [ref=e206]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e208]
+          - generic [ref=e209]:
+            - generic [ref=e210]:
+              - generic [ref=e211]: 🔴 Negative (-0.8)
+              - generic [ref=e212]: • 90% confident
+            - generic [ref=e213]:
+              - strong [ref=e214]: "Market:"
+              - text: 📉 Bearish (0.8) • Short-term
+            - generic [ref=e215]:
+              - strong [ref=e216]: "Impact:"
+              - text: "⚡ 0.7 • Volatility: 📈 0.8"
+            - generic [ref=e217]:
+              - strong [ref=e218]: "Urgency:"
+              - text: ⏰ 0.8
+            - generic [ref=e219]:
+              - strong [ref=e220]: "Themes:"
+              - text: 🏷️ max • 🏷️ 6 • 🏷️ strings
+        - generic [ref=e222]:
+          - generic [ref=e224]: 🌍 Geopolitical
+          - generic [ref=e225]:
+            - generic [ref=e226]: "🔴 Stability: -0.7"
+            - generic [ref=e227]: "⚡ Security: 0.6"
+            - generic [ref=e228]: "📈 Escalation: 0.7"
+            - generic [ref=e229]: "Affected: US"
+            - generic [ref=e230]: "Benefits: US"
+            - generic [ref=e231]: "Type: diplomatic"
+      - generic [ref=e232]:
+        - generic [ref=e233]:
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - 'heading "Australia news live: Dan Tehan says Liberals want to revive nuclear policy; a third of big companies paid no tax" [level=5] [ref=e236]':
+                - 'link "Australia news live: Dan Tehan says Liberals want to revive nuclear policy; a third of big companies paid no tax" [ref=e237] [cursor=pointer]':
+                  - /url: https://www.theguardian.com/australia-news/live/2025/oct/02/australia-news-live-dan-tehan-liberals-nuclear-sussan-ley-coalition-anthony-albanese-labor-flotilla-bhp-china-ntwnfb
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e240]: 
+                  - text: 01.10.2025 20:53
+                - generic [ref=e241]:
+                  - generic [ref=e242]: 
+                  - text: The Guardian World
+                - generic [ref=e243]:
+                  - generic [ref=e244]: 
+                  - text: Martin Farrer
+              - paragraph
+              - paragraph [ref=e245]: The shadow energy minister claims international ‘renaissance’ in power source. Follow today’s news live
+              - list [ref=e246]:
+                - listitem [ref=e247]:
+                  - paragraph [ref=e248]:
+                    - text: Get our
+                    - link "br..." [ref=e249] [cursor=pointer]:
+                      - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+                  - link:
+                    - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+            - link "No Analysis No geopolitical data" [ref=e250] [cursor=pointer]:
+              - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+              - generic [ref=e253] [cursor=pointer]: No Analysis
+              - generic [ref=e255] [cursor=pointer]: No geopolitical data
+          - link:
+            - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+        - link:
+          - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+      - link:
+        - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+      - generic [ref=e256]:
+        - link:
+          - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+        - generic [ref=e257]:
+          - link:
+            - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+          - generic [ref=e258]:
+            - link:
+              - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+            - generic [ref=e259]:
+              - link:
+                - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+              - heading "Israeli naval forces board pro-Palestinian flotilla 75 miles from Gaza" [level=5] [ref=e260]:
+                - link:
+                  - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+                - link "Israeli naval forces board pro-Palestinian flotilla 75 miles from Gaza" [ref=e261] [cursor=pointer]:
+                  - /url: https://www.theguardian.com/world/2025/oct/01/israeli-military-vessels-pro-palestinian-flotilla-gaza
+              - generic [ref=e262]:
+                - generic [ref=e263]:
+                  - generic [ref=e264]: 
+                  - text: 01.10.2025 20:49
+                - generic [ref=e265]:
+                  - generic [ref=e266]: 
+                  - text: The Guardian World
+                - generic [ref=e267]:
+                  - generic [ref=e268]: 
+                  - text: Lorenzo Tondo in Palermo and agencies
+              - paragraph
+              - paragraph [ref=e269]: Greta Thunberg arrested and taken into custody after six of the flotilla’s boats were boarded
+              - list [ref=e270]:
+                - listitem [ref=e271]:
+                  - paragraph:
+                    - link:
+                      - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+            - 'link "📊 Sentiment (gpt-4.1-nano) 🔴 Negative (-0.7) • 80% confident Market: ➡️ Neutral • Short-term Impact: ⚡ 0.7 • Volatility: 📈 0.6 Urgency: ⏰ 0.8 Themes: 🏷️ conflict • 🏷️ military • 🏷️ Middle East 🌍 Geopolitical 🔴 Stability: -0.8 ⚠️ Security: 0.9 📈 Escalation: 0.9 Affected: IL, PS Benefits: IL, PS Type: interstate_war" [ref=e272] [cursor=pointer]':
+              - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+              - generic [ref=e275] [cursor=pointer]:
+                - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e277] [cursor=pointer]
+                - generic [ref=e278] [cursor=pointer]:
+                  - generic [ref=e279] [cursor=pointer]:
+                    - generic [ref=e280] [cursor=pointer]: 🔴 Negative (-0.7)
+                    - generic [ref=e281] [cursor=pointer]: • 80% confident
+                  - generic [ref=e282] [cursor=pointer]:
+                    - strong [ref=e283] [cursor=pointer]: "Market:"
+                    - text: ➡️ Neutral • Short-term
+                  - generic [ref=e284] [cursor=pointer]:
+                    - strong [ref=e285] [cursor=pointer]: "Impact:"
+                    - text: "⚡ 0.7 • Volatility: 📈 0.6"
+                  - generic [ref=e286] [cursor=pointer]:
+                    - strong [ref=e287] [cursor=pointer]: "Urgency:"
+                    - text: ⏰ 0.8
+                  - generic [ref=e288] [cursor=pointer]:
+                    - strong [ref=e289] [cursor=pointer]: "Themes:"
+                    - text: 🏷️ conflict • 🏷️ military • 🏷️ Middle East
+              - generic [ref=e291] [cursor=pointer]:
+                - generic [ref=e293] [cursor=pointer]: 🌍 Geopolitical
+                - generic [ref=e294] [cursor=pointer]:
+                  - generic [ref=e295] [cursor=pointer]: "🔴 Stability: -0.8"
+                  - generic [ref=e296] [cursor=pointer]: "⚠️ Security: 0.9"
+                  - generic [ref=e297] [cursor=pointer]: "📈 Escalation: 0.9"
+                  - generic [ref=e298] [cursor=pointer]: "Affected: IL, PS"
+                  - generic [ref=e299] [cursor=pointer]: "Benefits: IL, PS"
+                  - generic [ref=e300] [cursor=pointer]: "Type: interstate_war"
+          - link:
+            - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+        - link:
+          - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+      - link:
+        - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+      - generic [ref=e301]:
+        - link:
+          - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+        - generic [ref=e302]:
+          - link:
+            - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+          - generic [ref=e303]:
+            - link:
+              - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+            - generic [ref=e304]:
+              - link:
+                - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+              - heading "How a U.S. Government Shutdown Could Impact Washington’s Foreign Policy" [level=5] [ref=e305]:
+                - link:
+                  - /url: "\"https://www.theguardian.com/world/live/2025/oct/01/israel-gaza-aid-global-sumud-...</p"
+                - link "How a U.S. Government Shutdown Could Impact Washington’s Foreign Policy" [ref=e306] [cursor=pointer]:
+                  - /url: https://foreignpolicy.com/2025/10/01/government-shutdown-pentagon-defense-state-impact-implications/
+              - generic [ref=e307]:
+                - generic [ref=e308]:
+                  - generic [ref=e309]: 
+                  - text: 01.10.2025 20:45
+                - generic [ref=e310]:
+                  - generic [ref=e311]: 
+                  - text: Foreign Policy
+                - generic [ref=e312]:
+                  - generic [ref=e313]: 
+                  - text: Rishi Iyengar
+              - paragraph [ref=e314]: Thousands of national security employees will continue working through the shutdown, but there are broader implications.
+            - generic [ref=e317]: No Analysis
+            - generic [ref=e319]: No geopolitical data
+      - generic [ref=e320]:
+        - generic [ref=e321]:
+          - generic [ref=e322]:
+            - generic [ref=e323]:
+              - heading "T-Mobile expands its Starlink satellite service to support apps such as WhatsApp, Google Maps, and X, after launching it in July with basic features like SMS (Harshita Mary Varghese/Reuters)" [level=5] [ref=e324]:
+                - link "T-Mobile expands its Starlink satellite service to support apps such as WhatsApp, Google Maps, and X, after launching it in July with basic features like SMS (Harshita Mary Varghese/Reuters)" [ref=e325] [cursor=pointer]:
+                  - /url: http://www.techmeme.com/251001/p40#a251001p40
+              - generic [ref=e326]:
+                - generic [ref=e327]:
+                  - generic [ref=e328]: 
+                  - text: 01.10.2025 20:45
+                - generic [ref=e329]:
+                  - generic [ref=e330]: 
+                  - text: TechMeme
+              - paragraph [ref=e331]:
+                - link [ref=e332] [cursor=pointer]:
+                  - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+                  - img [ref=e333] [cursor=pointer]
+            - link "No Analysis No geopolitical data" [ref=e334] [cursor=pointer]:
+              - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+              - generic [ref=e337] [cursor=pointer]: No Analysis
+              - generic [ref=e339] [cursor=pointer]: No geopolitical data
+          - link:
+            - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+        - link:
+          - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+      - link:
+        - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+      - generic [ref=e340]:
+        - link:
+          - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+        - generic [ref=e341]:
+          - link:
+            - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+          - generic [ref=e342]:
+            - link:
+              - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+            - generic [ref=e343]:
+              - link:
+                - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+              - heading "Pilot left partially deaf after rushing to seal aircraft door that depressurized at 30,000ft, lawsuit claims" [level=5] [ref=e344]:
+                - link:
+                  - /url: "\"https://www.reuters.com/business/media-telecom/t-mobile-expands-satellite-based-network-support-whatsapp-x-mobile-dead-zones-2025-10-01/\""
+                - link "Pilot left partially deaf after rushing to seal aircraft door that depressurized at 30,000ft, lawsuit claims" [ref=e345] [cursor=pointer]:
+                  - /url: https://www.independent.co.uk/news/world/americas/american-airlines-door-seal-pilot-deaf-b2837596.html
+              - generic [ref=e346]:
+                - generic [ref=e347]:
+                  - generic [ref=e348]: 
+                  - text: 01.10.2025 20:42
+                - generic [ref=e349]:
+                  - generic [ref=e350]: 
+                  - text: The Independent World
+              - paragraph
+              - paragraph [ref=e351]:
+                - strong [ref=e352]: Exclusive
+                - text: ": Capt. Wayne Hoefler told"
+                - emphasis [ref=e353]: The Independent
+                - text: he sprang into action to help fix a malfunctioning door plug -- one day before an incident nearly sucked passengers out...
+            - generic [ref=e356]:
+              - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e358]
+              - generic [ref=e359]:
+                - generic [ref=e360]:
+                  - generic [ref=e361]: 🔴 Negative (-0.7)
+                  - generic [ref=e362]: • 85% confident
+                - generic [ref=e363]:
+                  - strong [ref=e364]: "Market:"
+                  - text: 📉 Bearish (0.7) • Short-term
+                - generic [ref=e365]:
+                  - strong [ref=e366]: "Impact:"
+                  - text: "⚡ 0.7 • Volatility: 📈 0.6"
+                - generic [ref=e367]:
+                  - strong [ref=e368]: "Urgency:"
+                  - text: ⏰ 0.8
+                - generic [ref=e369]:
+                  - strong [ref=e370]: "Themes:"
+                  - text: 🏷️ safety • 🏷️ aviation • 🏷️ lawsuit
+            - generic [ref=e372]: No geopolitical data
+      - generic [ref=e375]:
+        - generic [ref=e376]:
+          - heading "Can a European Drone Wall Stop Russia?" [level=5] [ref=e377]:
+            - link "Can a European Drone Wall Stop Russia?" [ref=e378] [cursor=pointer]:
+              - /url: https://foreignpolicy.com/2025/10/01/europe-drone-wall-russia-incursions-denmark-poland-us-government-shutdown/
+          - generic [ref=e379]:
+            - generic [ref=e380]:
+              - generic [ref=e381]: 
+              - text: 01.10.2025 20:38
+            - generic [ref=e382]:
+              - generic [ref=e383]: 
+              - text: Foreign Policy
+            - generic [ref=e384]:
+              - generic [ref=e385]: 
+              - text: Alexandra Sharp
+          - paragraph [ref=e386]: The European Union is hoping that a network of sensors and weapons will prevent Russian drones from violating European airspace.
+        - generic [ref=e389]: No Analysis
+        - generic [ref=e391]: No geopolitical data
+      - generic [ref=e394]:
+        - generic [ref=e395]:
+          - heading "Witkoff’s Son Wants to Turn Trump Real Estate Into Crypto Tokens" [level=5] [ref=e396]:
+            - link "Witkoff’s Son Wants to Turn Trump Real Estate Into Crypto Tokens" [ref=e397] [cursor=pointer]:
+              - /url: https://www.bloomberg.com/news/articles/2025-10-01/witkoff-s-son-wants-to-turn-trump-real-estate-into-crypto-tokens
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - generic [ref=e400]: 
+              - text: 01.10.2025 20:37
+            - generic [ref=e401]:
+              - generic [ref=e402]: 
+              - text: Bloomberg
+            - generic [ref=e403]:
+              - generic [ref=e404]: 
+              - text: Suvashree Ghosh, Olga Kharif
+          - paragraph [ref=e405]: Zach Witkoff would like to make the Trump family’s real estate portfolio available as tokens on blockchain, giving access to a wider pool of investors.
+        - generic [ref=e408]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e410]
+          - generic [ref=e411]:
+            - generic [ref=e412]:
+              - generic [ref=e413]: 🟢 Positive (0.6)
+              - generic [ref=e414]: • 80% confident
+            - generic [ref=e415]:
+              - strong [ref=e416]: "Market:"
+              - text: ➡️ Neutral • Medium-term
+            - generic [ref=e417]:
+              - strong [ref=e418]: "Impact:"
+              - text: "⚡ 0.4 • Volatility: 📈 0.3"
+            - generic [ref=e419]:
+              - strong [ref=e420]: "Urgency:"
+              - text: ⏰ 0.3
+            - generic [ref=e421]:
+              - strong [ref=e422]: "Themes:"
+              - text: 🏷️ cryptocurrency • 🏷️ real estate • 🏷️ blockchain
+        - generic [ref=e424]: No geopolitical data
+      - generic [ref=e427]:
+        - generic [ref=e428]:
+          - heading "Microsoft sales chief Althoff gets new role as CEO of company's commercial business" [level=5] [ref=e429]:
+            - link "Microsoft sales chief Althoff gets new role as CEO of company's commercial business" [ref=e430] [cursor=pointer]:
+              - /url: https://www.cnbc.com/2025/10/01/microsoft-makes-sales-chief-althoff-ceo-of-commercial-business.html
+          - generic [ref=e431]:
+            - generic [ref=e432]:
+              - generic [ref=e433]: 
+              - text: 01.10.2025 20:37
+            - generic [ref=e434]:
+              - generic [ref=e435]: 
+              - text: CNBC World
+          - paragraph [ref=e436]: Bringing together sales with marketing and other functions is critical for Microsoft to lead in the artificial intelligence era, CEO Satya Nadella said.
+        - generic [ref=e439]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e441]
+          - generic [ref=e442]:
+            - generic [ref=e443]:
+              - generic [ref=e444]: 🟢 Positive (0.6)
+              - generic [ref=e445]: • 80% confident
+            - generic [ref=e446]:
+              - strong [ref=e447]: "Market:"
+              - text: ➡️ Neutral • Medium-term
+            - generic [ref=e448]:
+              - strong [ref=e449]: "Impact:"
+              - text: "⚡ 0.4 • Volatility: 📈 0.2"
+            - generic [ref=e450]:
+              - strong [ref=e451]: "Urgency:"
+              - text: ⏰ 0.3
+            - generic [ref=e452]:
+              - strong [ref=e453]: "Themes:"
+              - text: 🏷️ technology • 🏷️ corporate leadership • 🏷️ AI
+        - generic [ref=e455]: No geopolitical data
+      - generic [ref=e458]:
+        - generic [ref=e459]:
+          - heading "Insurers Spend Big to Save Obamacare Subsidies at Center of Shutdown Fight" [level=5] [ref=e460]:
+            - link "Insurers Spend Big to Save Obamacare Subsidies at Center of Shutdown Fight" [ref=e461] [cursor=pointer]:
+              - /url: https://www.bloomberg.com/news/articles/2025-10-01/us-government-shutdown-has-insurers-pressing-for-obamacare-subsidy-renewal
+          - generic [ref=e462]:
+            - generic [ref=e463]:
+              - generic [ref=e464]: 
+              - text: 01.10.2025 20:37
+            - generic [ref=e465]:
+              - generic [ref=e466]: 
+              - text: Bloomberg
+            - generic [ref=e467]:
+              - generic [ref=e468]: 
+              - text: Emily Birnbaum
+          - paragraph [ref=e469]: Ominous images of anxious adults and children began flashing on streaming services and social media more than a week before Senate Democrats forced a government shutdown over their demands to renew ex...
+        - generic [ref=e472]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e474]
+          - generic [ref=e475]:
+            - generic [ref=e476]:
+              - generic [ref=e477]: 🔴 Negative (-0.7)
+              - generic [ref=e478]: • 85% confident
+            - generic [ref=e479]:
+              - strong [ref=e480]: "Market:"
+              - text: ➡️ Neutral • Short-term
+            - generic [ref=e481]:
+              - strong [ref=e482]: "Impact:"
+              - text: "⚡ 0.6 • Volatility: 📈 0.7"
+            - generic [ref=e483]:
+              - strong [ref=e484]: "Urgency:"
+              - text: ⏰ 0.7
+            - generic [ref=e485]:
+              - strong [ref=e486]: "Themes:"
+              - text: 🏷️ policy • 🏷️ healthcare • 🏷️ government_shutdown
+        - generic [ref=e488]: No geopolitical data
+      - generic [ref=e491]:
+        - generic [ref=e492]:
+          - 'heading "Roundtables: Trump’s Impact on the Next Generation of Innovators" [level=5] [ref=e493]':
+            - 'link "Roundtables: Trump’s Impact on the Next Generation of Innovators" [ref=e494] [cursor=pointer]':
+              - /url: https://www.technologyreview.com/2025/10/01/1124062/roundtables-trumps-impact-on-the-next-generation-of-innovators/
+          - generic [ref=e495]:
+            - generic [ref=e496]:
+              - generic [ref=e497]: 
+              - text: 01.10.2025 20:35
+            - generic [ref=e498]:
+              - generic [ref=e499]: 
+              - text: MIT Technology Review
+            - generic [ref=e500]:
+              - generic [ref=e501]: 
+              - text: MIT Technology Review
+          - paragraph [ref=e502]: Every year, MIT Technology Review recognizes dozens of young researchers on our Innovators Under 35 list. We checked back in with recent honorees to see how they’re faring amid sweeping changes&#...
+        - generic [ref=e505]: No Analysis
+        - generic [ref=e507]: No geopolitical data
+      - generic [ref=e510]:
+        - generic [ref=e511]:
+          - heading "Jane Goodall, world-renowned primatologist, dies aged 91" [level=5] [ref=e512]:
+            - link "Jane Goodall, world-renowned primatologist, dies aged 91" [ref=e513] [cursor=pointer]:
+              - /url: https://www.theguardian.com/science/2025/oct/01/jane-goodall-world-renowned-primatologist-dies
+          - generic [ref=e514]:
+            - generic [ref=e515]:
+              - generic [ref=e516]: 
+              - text: 01.10.2025 20:34
+            - generic [ref=e517]:
+              - generic [ref=e518]: 
+              - text: The Guardian World
+            - generic [ref=e519]:
+              - generic [ref=e520]: 
+              - text: Matty Edwards
+          - paragraph
+          - paragraph [ref=e521]: Jane Goodall Institute says ‘tireless advocate’ for natural world died in California during US speaking tour
+          - paragraph [ref=e522]: The world-renowned primatologist Jane Goodall has died at the age of 91, her insti...
+        - generic [ref=e525]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e527]
+          - generic [ref=e528]:
+            - generic [ref=e529]:
+              - generic [ref=e530]: ⚪ Neutral (0.0)
+              - generic [ref=e531]: • 80% confident
+            - generic [ref=e532]:
+              - strong [ref=e533]: "Market:"
+              - text: ➡️ Neutral • Short-term
+            - generic [ref=e534]:
+              - strong [ref=e535]: "Impact:"
+              - text: "⚡ 0.1 • Volatility: 📈 0.1"
+            - generic [ref=e536]:
+              - strong [ref=e537]: "Urgency:"
+              - text: ⏰ 0.1
+            - generic [ref=e538]:
+              - strong [ref=e539]: "Themes:"
+              - text: 🏷️ environment • 🏷️ science • 🏷️ public_figure
+        - generic [ref=e541]: No geopolitical data
+      - generic [ref=e544]:
+        - generic [ref=e545]:
+          - heading "Trump Plays Hardball on Shutdown With Plans to Fire Federal Workers" [level=5] [ref=e546]:
+            - link "Trump Plays Hardball on Shutdown With Plans to Fire Federal Workers" [ref=e547] [cursor=pointer]:
+              - /url: https://www.bloomberg.com/news/newsletters/2025-10-01/trump-plays-hardball-on-shutdown-with-plans-to-fire-federal-workers
+          - generic [ref=e548]:
+            - generic [ref=e549]:
+              - generic [ref=e550]: 
+              - text: 01.10.2025 20:33
+            - generic [ref=e551]:
+              - generic [ref=e552]: 
+              - text: Bloomberg
+            - generic [ref=e553]:
+              - generic [ref=e554]: 
+              - text: Enda Curran
+          - paragraph [ref=e555]: This is Washington Edition, the newsletter about money, power and politics in the nation’s capital. Today, senior editor Joe Sobczyk looks at the how the standoff over the government shutdown is playi...
+        - generic [ref=e558]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e560]
+          - generic [ref=e561]:
+            - generic [ref=e562]:
+              - generic [ref=e563]: 🔴 Negative (-0.7)
+              - generic [ref=e564]: • 90% confident
+            - generic [ref=e565]:
+              - strong [ref=e566]: "Market:"
+              - text: 📉 Bearish (0.8) • Short-term
+            - generic [ref=e567]:
+              - strong [ref=e568]: "Impact:"
+              - text: "⚡ 0.7 • Volatility: 📈 0.8"
+            - generic [ref=e569]:
+              - strong [ref=e570]: "Urgency:"
+              - text: ⏰ 0.8
+            - generic [ref=e571]:
+              - strong [ref=e572]: "Themes:"
+              - text: 🏷️ government_shutdown • 🏷️ federal_workers • 🏷️ political_standoff
+        - generic [ref=e574]:
+          - generic [ref=e576]: 🌍 Geopolitical
+          - generic [ref=e577]:
+            - generic [ref=e578]: "🔴 Stability: -0.6"
+            - generic [ref=e579]: "🛡️ Security: 0.2"
+            - generic [ref=e580]: "📈 Escalation: 0.7"
+            - generic [ref=e581]: "Affected: US"
+            - generic [ref=e582]: "Benefits: US"
+            - generic [ref=e583]: "Type: economic"
+      - generic [ref=e586]:
+        - generic [ref=e587]:
+          - 'heading "Middle East: Israel intercepts Gaza aid flotilla — activists" [level=5] [ref=e588]':
+            - 'link "Middle East: Israel intercepts Gaza aid flotilla — activists" [ref=e589] [cursor=pointer]':
+              - /url: https://www.dw.com/en/middle-east-israel-intercepts-gaza-aid-flotilla-activists/live-74203054?maca=en-rss-en-top-1022-rdf
+          - generic [ref=e590]:
+            - generic [ref=e591]:
+              - generic [ref=e592]: 
+              - text: 01.10.2025 20:32
+            - generic [ref=e593]:
+              - generic [ref=e594]: 
+              - text: Deutsche Welle
+          - paragraph [ref=e595]: The Israeli Navy intercepted the Global Sumud Flotilla from advancing to the Gaza coast, the convoy said. Meanwhile, the Red Cross says Israel's offensive has "forced" it to pause activities in Gaza C...
+        - generic [ref=e598]:
+          - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e600]
+          - generic [ref=e601]:
+            - generic [ref=e602]:
+              - generic [ref=e603]: 🔴 Negative (-0.7)
+              - generic [ref=e604]: • 80% confident
+            - generic [ref=e605]:
+              - strong [ref=e606]: "Market:"
+              - text: 📉 Bearish (0.7) • Short-term
+            - generic [ref=e607]:
+              - strong [ref=e608]: "Impact:"
+              - text: "⚡ 0.7 • Volatility: 📈 0.6"
+            - generic [ref=e609]:
+              - strong [ref=e610]: "Urgency:"
+              - text: ⏰ 0.8
+            - generic [ref=e611]:
+              - strong [ref=e612]: "Themes:"
+              - text: 🏷️ conflict • 🏷️ humanitarian • 🏷️ regional
+        - generic [ref=e614]: No geopolitical data
+      - generic [ref=e615]:
+        - generic [ref=e616]:
+          - generic [ref=e617]:
+            - generic [ref=e618]:
+              - 'heading "Australia news live: Dan Tehan says Liberals want to revive nuclear policy; a third of big companies paid no tax" [level=5] [ref=e619]':
+                - 'link "Australia news live: Dan Tehan says Liberals want to revive nuclear policy; a third of big companies paid no tax" [ref=e620] [cursor=pointer]':
+                  - /url: https://www.theguardian.com/australia-news/live/2025/oct/02/australia-news-live-dan-tehan-liberals-nuclear-sussan-ley-coalition-anthony-albanese-labor-flotilla-bhp-china-ntwnfb
+              - generic [ref=e621]:
+                - generic [ref=e622]:
+                  - generic [ref=e623]: 
+                  - text: 01.10.2025 20:29
+                - generic [ref=e624]:
+                  - generic [ref=e625]: 
+                  - text: The Guardian World
+                - generic [ref=e626]:
+                  - generic [ref=e627]: 
+                  - text: Martin Farrer
+              - paragraph
+              - paragraph [ref=e628]: The shadow energy minister claims international ‘renaissance’ in power source. Follow today’s news live
+              - list [ref=e629]:
+                - listitem [ref=e630]:
+                  - paragraph [ref=e631]:
+                    - text: Get our
+                    - link "br..." [ref=e632] [cursor=pointer]:
+                      - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+                  - link:
+                    - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+            - 'link "📊 Sentiment (gpt-4.1-nano) ⚪ Neutral (0.0) • 80% confident Market: ➡️ Neutral • Medium-term Impact: ⚡ 0.3 • Volatility: 📈 0.4 Urgency: ⏰ 0.4 Themes: 🏷️ energy • 🏷️ policy • 🏷️ tax No geopolitical data" [ref=e633] [cursor=pointer]':
+              - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+              - generic [ref=e636] [cursor=pointer]:
+                - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e638] [cursor=pointer]
+                - generic [ref=e639] [cursor=pointer]:
+                  - generic [ref=e640] [cursor=pointer]:
+                    - generic [ref=e641] [cursor=pointer]: ⚪ Neutral (0.0)
+                    - generic [ref=e642] [cursor=pointer]: • 80% confident
+                  - generic [ref=e643] [cursor=pointer]:
+                    - strong [ref=e644] [cursor=pointer]: "Market:"
+                    - text: ➡️ Neutral • Medium-term
+                  - generic [ref=e645] [cursor=pointer]:
+                    - strong [ref=e646] [cursor=pointer]: "Impact:"
+                    - text: "⚡ 0.3 • Volatility: 📈 0.4"
+                  - generic [ref=e647] [cursor=pointer]:
+                    - strong [ref=e648] [cursor=pointer]: "Urgency:"
+                    - text: ⏰ 0.4
+                  - generic [ref=e649] [cursor=pointer]:
+                    - strong [ref=e650] [cursor=pointer]: "Themes:"
+                    - text: 🏷️ energy • 🏷️ policy • 🏷️ tax
+              - generic [ref=e652] [cursor=pointer]: No geopolitical data
+          - link:
+            - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+        - link:
+          - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+      - link:
+        - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+      - generic [ref=e653]:
+        - link:
+          - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+        - generic [ref=e654]:
+          - link:
+            - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+          - generic [ref=e655]:
+            - link:
+              - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+            - generic [ref=e656]:
+              - link:
+                - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+              - heading "New York rapper who joined Trump at campaign rally jailed for attempted murder" [level=5] [ref=e657]:
+                - link:
+                  - /url: "\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\""
+                - link "New York rapper who joined Trump at campaign rally jailed for attempted murder" [ref=e658] [cursor=pointer]:
+                  - /url: https://www.independent.co.uk/news/world/americas/trump-sheff-g-campaign-rally-rapper-jailed-b2837617.html
+              - generic [ref=e659]:
+                - generic [ref=e660]:
+                  - generic [ref=e661]: 
+                  - text: 01.10.2025 20:29
+                - generic [ref=e662]:
+                  - generic [ref=e663]: 
+                  - text: The Independent World
+                - generic [ref=e664]:
+                  - generic [ref=e665]: 
+                  - text: Philip Marcelo and Bruce Shipkowski
+              - paragraph
+              - paragraph [ref=e666]: Sheff G, whose legal name is Michael Williams, must also serve five years of supervised release once he is freed
+              - paragraph
+            - generic [ref=e669]:
+              - heading "📊 Sentiment (gpt-4.1-nano)" [level=6] [ref=e671]
+              - generic [ref=e672]:
+                - generic [ref=e673]:
+                  - generic [ref=e674]: 🔴 Negative (-0.7)
+                  - generic [ref=e675]: • 80% confident
+                - generic [ref=e676]:
+                  - strong [ref=e677]: "Market:"
+                  - text: ➡️ Neutral • Short-term
+                - generic [ref=e678]:
+                  - strong [ref=e679]: "Impact:"
+                  - text: "⚡ 0.6 • Volatility: 📈 0.5"
+                - generic [ref=e680]:
+                  - strong [ref=e681]: "Urgency:"
+                  - text: ⏰ 0.7
+                - generic [ref=e682]:
+                  - strong [ref=e683]: "Themes:"
+                  - text: 🏷️ max • 🏷️ 6 • 🏷️ strings
+            - generic [ref=e685]:
+              - generic [ref=e687]: 🌍 Geopolitical
+              - generic [ref=e688]:
+                - generic [ref=e689]: "🔴 Stability: -0.8"
+                - generic [ref=e690]: "⚡ Security: 0.7"
+                - generic [ref=e691]: "📈 Escalation: 0.7"
+                - generic [ref=e692]: "Affected: US"
+                - generic [ref=e693]: "Benefits: US"
+                - generic [ref=e694]: "Type: interstate_war"
+    - button "Load More" [ref=e696] [cursor=pointer]
+```

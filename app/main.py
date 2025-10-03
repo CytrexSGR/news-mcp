@@ -17,10 +17,11 @@ from app.api import (
     feeds_simple, analysis_jobs, websocket_endpoint, config
 )
 from app.api.v1 import analysis as analysis_v1, health as health_v1
+from app.api import v2 as api_v2
 
 # View imports
 from app.routes import templates as template_routes, processors_htmx
-from app.web.views import analysis, auto_analysis_views, manager_views
+from app.web.views import analysis, auto_analysis_views, manager_views, template_views
 
 # Core imports
 from app.core.logging_config import setup_logging, get_logger
@@ -132,6 +133,7 @@ app.include_router(feature_flags_admin.router)
 app.include_router(analysis.router)
 app.include_router(auto_analysis_views.router, prefix="/htmx")
 app.include_router(manager_views.router)
+app.include_router(template_views.router)
 
 app.include_router(analysis_jobs.router, prefix="/api")
 app.include_router(websocket_endpoint.router)
@@ -145,6 +147,9 @@ app.include_router(system.router, prefix="/api")
 app.include_router(analysis_selection.router)
 app.include_router(auto_analysis_monitoring.router)
 app.include_router(config.router)
+
+# Content Distribution System (v2 API)
+app.include_router(api_v2.router, prefix="/api")
 
 app.include_router(create_health_router())
 # app.include_router(create_metrics_router())  # Als nächstes

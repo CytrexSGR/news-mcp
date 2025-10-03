@@ -525,10 +525,49 @@ class ComprehensiveNewsServer:
                     }
                 ),
 
+                # Schema Discovery Tools (Self-Documenting API)
+                Tool(
+                    name="get_schemas",
+                    description="Get JSON schemas for all data structures. Returns complete JSON Schema definitions for items, analysis, sentiment, and geopolitical data. Use this to understand response structures before making API calls. Optional: pass schema_name ('item_basic', 'item_with_analysis', 'sentiment', 'geopolitical', 'analysis') to get specific schema.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "schema_name": {
+                                "type": "string",
+                                "enum": ["item_basic", "item_with_analysis", "sentiment", "geopolitical", "analysis"],
+                                "description": "Specific schema to retrieve (omit to get all schemas)"
+                            }
+                        }
+                    }
+                ),
+                Tool(
+                    name="get_example_data",
+                    description="Get example responses with real data to understand structure. Returns actual example items with analysis data. Use this to see what a complete response looks like. Available types: 'item_basic' (basic item without analysis), 'item_with_analysis' (item with full sentiment and geopolitical analysis).",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "example_type": {
+                                "type": "string",
+                                "enum": ["item_basic", "item_with_analysis"],
+                                "default": "item_with_analysis",
+                                "description": "Type of example to retrieve"
+                            }
+                        }
+                    }
+                ),
+                Tool(
+                    name="get_usage_guide",
+                    description="Get comprehensive usage guide with best practices, field interpretations, and examples. Explains: sentiment score ranges (-1.0 to +1.0), impact/urgency levels (0.0 to 1.0), geopolitical metrics (stability_score, escalation_potential, security_relevance), country codes (ISO 3166-1), alliance codes (NATO, EU, BRICS, etc.), and how to interpret all analysis data. Essential for understanding how to work with News-MCP data.",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {}
+                    }
+                ),
+
                 # MCP v2 Tools - Enhanced Items
                 Tool(
                     name="items_recent",
-                    description="Get recent items with deduplication (removes duplicate content by hash). Faster than latest_articles for simple recency queries. Example: Get last 50 items since='2025-09-28T00:00:00Z' with dedupe=true to avoid repeated content.",
+                    description="Get recent items with optional analysis data (sentiment, geopolitical). Set include_analysis=true for sentiment/impact scores, include_geopolitical=true for geopolitical analysis. Example: Get last 50 items with include_analysis=true and include_geopolitical=true for full analysis data including geopolitical tension scores.",
                     inputSchema={
                         "type": "object",
                         "properties": {
@@ -536,13 +575,15 @@ class ComprehensiveNewsServer:
                             "since": {"type": "string", "format": "date-time", "description": "Items since this ISO8601 timestamp"},
                             "feed_id": {"type": "integer", "description": "Filter by feed ID"},
                             "category": {"type": "string", "description": "Filter by category"},
-                            "dedupe": {"type": "boolean", "default": True, "description": "Remove duplicate content"}
+                            "dedupe": {"type": "boolean", "default": True, "description": "Remove duplicate content"},
+                            "include_analysis": {"type": "boolean", "default": False, "description": "Include sentiment and impact analysis"},
+                            "include_geopolitical": {"type": "boolean", "default": False, "description": "Include geopolitical analysis (requires include_analysis=true)"}
                         }
                     }
                 ),
                 Tool(
                     name="items_search",
-                    description="Search items with advanced filtering (query, time_range, pagination, sorting). More flexible than search_articles. Example: Search q='blockchain' with time_range for date-bounded search and offset for pagination.",
+                    description="Search items with optional analysis data (sentiment, geopolitical). Set include_analysis=true for sentiment/impact scores, include_geopolitical=true for geopolitical analysis. Example: Search q='blockchain' with include_analysis=true for sentiment scores.",
                     inputSchema={
                         "type": "object",
                         "properties": {
@@ -558,7 +599,9 @@ class ComprehensiveNewsServer:
                                 "description": "Time range filter"
                             },
                             "feeds": {"type": "array", "items": {"type": "integer"}, "description": "Feed ID filters"},
-                            "categories": {"type": "array", "items": {"type": "string"}, "description": "Category filters"}
+                            "categories": {"type": "array", "items": {"type": "string"}, "description": "Category filters"},
+                            "include_analysis": {"type": "boolean", "default": False, "description": "Include sentiment and impact analysis"},
+                            "include_geopolitical": {"type": "boolean", "default": False, "description": "Include geopolitical analysis (requires include_analysis=true)"}
                         },
                         "required": ["q"]
                     }
@@ -776,6 +819,13 @@ class ComprehensiveNewsServer:
                     return await self.v2_handlers.items_recent(**arguments)
                 elif name == "items_search":
                     return await self.v2_handlers.items_search(**arguments)
+                # Schema Discovery Handlers
+                elif name == "get_schemas":
+                    return await self.v2_handlers.get_schemas(**arguments)
+                elif name == "get_example_data":
+                    return await self.v2_handlers.get_example_data(**arguments)
+                elif name == "get_usage_guide":
+                    return await self.v2_handlers.get_usage_guide(**arguments)
                 # Categories Management Handlers
                 elif name == "categories_list":
                     return await self._categories_list(**arguments)

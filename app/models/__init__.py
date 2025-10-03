@@ -64,6 +64,15 @@ from .auto_analysis import (
     PendingAutoAnalysis,
 )
 
+# Import content distribution models
+from .content_distribution import (
+    ContentTemplate,
+    GeneratedContent,
+    DistributionChannel,
+    DistributionLog,
+    PendingContentGeneration,
+)
+
 # Export all models
 __all__ = [
     # Base classes and enums
@@ -111,4 +120,11 @@ __all__ = [
 
     # Auto-analysis models
     "PendingAutoAnalysis",
+
+    # Content distribution models
+    "ContentTemplate",
+    "GeneratedContent",
+    "DistributionChannel",
+    "DistributionLog",
+    "PendingContentGeneration",
 ]

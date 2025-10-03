@@ -56,6 +56,31 @@ else
 fi
 
 echo ""
+
+# Check MCP Server
+if pgrep -f "python.*http_mcp_server" > /dev/null; then
+    MCP_PID=$(pgrep -f "python.*http_mcp_server")
+    echo -e "${GREEN}✓ MCP Server: RUNNING${NC}"
+    echo "  PID: $MCP_PID"
+
+    # Try to get URL from .env
+    if [ -f ".env" ]; then
+        HOST=$(grep API_HOST .env | cut -d= -f2 | tr -d ' ')
+        MCP_PORT=$(grep MCP_PORT .env | cut -d= -f2 | tr -d ' ')
+        echo "  URL: http://${HOST:-0.0.0.0}:${MCP_PORT:-8001}"
+
+        # Test if it responds
+        if curl -s -o /dev/null -w "%{http_code}" "http://${HOST}:${MCP_PORT}/health" | grep -q "200"; then
+            echo -e "  Status: ${GREEN}Responding${NC}"
+        else
+            echo -e "  Status: ${YELLOW}Not responding${NC}"
+        fi
+    fi
+else
+    echo -e "${RED}✗ MCP Server: NOT RUNNING${NC}"
+fi
+
+echo ""
 echo "Recent API logs (last 3 lines):"
 echo "--------------------------------"
 if [ -f "logs/api.log" ]; then
@@ -80,4 +105,13 @@ if [ -f "logs/scheduler.log" ]; then
     tail -3 logs/scheduler.log | sed 's/^/  /'
 else
     echo "  No scheduler logs found"
+fi
+
+echo ""
+echo "Recent MCP Server logs (last 3 lines):"
+echo "---------------------------------------"
+if [ -f "logs/mcp-server.log" ]; then
+    tail -3 logs/mcp-server.log | sed 's/^/  /'
+else
+    echo "  No MCP server logs found"
 fi

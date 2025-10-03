@@ -628,6 +628,122 @@ GET    /admin/manager                       # Manager Control Center UI (include
 
 ---
 
+## 17. Content Distribution System (v2 API)
+
+### Templates API
+
+#### POST /api/v2/templates/
+Create new content template
+- **Request Body**: `ContentTemplateCreate` schema
+- **Response**: Created template with ID
+- **Example**:
+```json
+{
+  "name": "Security Intelligence Brief",
+  "description": "Daily security briefing",
+  "target_audience": "IT Managers",
+  "selection_criteria": {
+    "keywords": ["security", "breach"],
+    "timeframe_hours": 24,
+    "min_impact_score": 0.6
+  },
+  "content_structure": {
+    "sections": [
+      {"name": "summary", "max_words": 150}
+    ],
+    "output_format": "markdown"
+  },
+  "llm_prompt_template": "Generate security brief..."
+}
+```
+
+#### GET /api/v2/templates/
+List all content templates
+- **Query Params**: `skip`, `limit`, `is_active`
+- **Response**: Array of templates
+
+#### GET /api/v2/templates/{id}
+Get specific template
+- **Response**: Template details
+
+#### PUT /api/v2/templates/{id}
+Update template
+- **Request Body**: `ContentTemplateUpdate` schema
+- **Response**: Updated template
+
+#### DELETE /api/v2/templates/{id}
+Delete template (cascade deletes content & channels)
+
+---
+
+### Generated Content API
+
+#### GET /api/v2/content/
+List generated content
+- **Query Params**: `template_id`, `status`, `skip`, `limit`
+- **Response**: Array of content summaries
+
+#### GET /api/v2/content/{id}
+Get specific generated content
+- **Response**: Full content (HTML, Markdown, JSON)
+
+---
+
+### Distribution Channels API
+
+#### POST /api/v2/distribution/channels/
+Create distribution channel
+- **Request Body**: `DistributionChannelCreate` schema
+- **Channel Types**: `email`, `web`, `rss`, `api`
+- **Example (Email)**:
+```json
+{
+  "template_id": 1,
+  "channel_type": "email",
+  "channel_name": "IT Security Team",
+  "channel_config": {
+    "recipients": ["security@example.com"],
+    "subject_template": "Security Brief - {date}",
+    "from_address": "briefings@news-mcp.com"
+  },
+  "is_active": true
+}
+```
+
+#### GET /api/v2/distribution/channels/
+List distribution channels
+- **Query Params**: `template_id`, `channel_type`, `is_active`, `skip`, `limit`
+- **Response**: Array of channels
+
+#### GET /api/v2/distribution/channels/{id}
+Get specific channel
+
+#### PUT /api/v2/distribution/channels/{id}
+Update channel configuration
+
+#### DELETE /api/v2/distribution/channels/{id}
+Delete channel (cascade deletes logs)
+
+---
+
+### Distribution Control API
+
+#### POST /api/v2/distribution/send/{content_id}
+Trigger content distribution
+- **Query Params**: `channel_ids` (optional, defaults to all active)
+- **Response**: Distribution job details
+- **Note**: Creates log entries with status "pending" (actual delivery implemented in Phase 3)
+
+#### GET /api/v2/distribution/logs/
+Get distribution logs
+- **Query Params**: `content_id`, `channel_id`, `status`, `skip`, `limit`
+- **Response**: Array of distribution logs
+
+#### GET /api/v2/distribution/logs/{id}
+Get specific distribution log
+
+---
+
 ## 🔍 Schnell-Referenz: Häufigste Endpunkte
 
 ### Entwicklung

@@ -27,12 +27,19 @@ echo ""
 ./scripts/start-scheduler.sh
 
 echo ""
+
+# Start MCP Server
+./scripts/start-mcp.sh
+
+echo ""
 echo -e "${GREEN}================================${NC}"
 echo -e "${GREEN}All services started!${NC}"
 echo ""
 echo "Access points:"
-echo "  - Web UI:  http://$(grep API_HOST .env | cut -d= -f2):$(grep API_PORT .env | cut -d= -f2)/"
-echo "  - API Docs: http://$(grep API_HOST .env | cut -d= -f2):$(grep API_PORT .env | cut -d= -f2)/docs"
+echo "  - Web UI:    http://$(grep API_HOST .env | cut -d= -f2):$(grep API_PORT .env | cut -d= -f2)/"
+echo "  - API Docs:  http://$(grep API_HOST .env | cut -d= -f2):$(grep API_PORT .env | cut -d= -f2)/docs"
+echo "  - MCP Server: http://$(grep API_HOST .env | cut -d= -f2):$(grep MCP_PORT .env | cut -d= -f2)/"
+echo "  - MCP OpenAPI: http://$(grep API_HOST .env | cut -d= -f2):$(grep MCP_PORT .env | cut -d= -f2)/mcp/openapi.json"
 echo ""
 echo "To stop all services: ./scripts/stop-all.sh"
 echo "To view logs: tail -f logs/api.log"

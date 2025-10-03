@@ -121,4 +121,41 @@ else
     fi
 fi
 
+# Stop MCP Server
+if [ -f /tmp/news-mcp-server.pid ]; then
+    MCP_PID=$(cat /tmp/news-mcp-server.pid)
+    if ps -p $MCP_PID > /dev/null 2>&1; then
+        echo "Stopping MCP server (PID: $MCP_PID)..."
+        kill $MCP_PID
+        # Wait for process to actually terminate (max 5 seconds)
+        for i in {1..10}; do
+            if ! ps -p $MCP_PID > /dev/null 2>&1; then
+                break
+            fi
+            sleep 0.5
+        done
+        # Force kill if still running
+        if ps -p $MCP_PID > /dev/null 2>&1; then
+            echo "Process still running, force killing..."
+            kill -9 $MCP_PID
+            sleep 1
+        fi
+        rm /tmp/news-mcp-server.pid
+        echo -e "${GREEN}✓ MCP server stopped${NC}"
+    else
+        echo -e "${YELLOW}MCP server not running (stale PID file)${NC}"
+        rm /tmp/news-mcp-server.pid
+    fi
+else
+    # Try to find and kill any running MCP server process
+    if pgrep -f "python.*http_mcp_server" > /dev/null; then
+        echo "Found running MCP server, stopping..."
+        pkill -f "python.*http_mcp_server"
+        sleep 2
+        echo -e "${GREEN}✓ MCP server stopped${NC}"
+    else
+        echo "No MCP server running"
+    fi
+fi
+
 echo -e "${GREEN}All services stopped${NC}"

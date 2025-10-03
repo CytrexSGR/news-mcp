@@ -11,6 +11,7 @@ from sqlmodel import Session, select
 from sqlalchemy import text
 from app.database import engine
 from app.models import Feed, Item
+from mcp_server.schemas import SCHEMAS, EXAMPLES, USAGE_GUIDE, SCHEMA_VERSION
 
 logger = logging.getLogger(__name__)
 
@@ -381,38 +382,112 @@ class MCPv2Handlers:
 
     # Enhanced Item Tools
     async def items_recent(self, limit: int = 50, since: Optional[str] = None, feed_id: Optional[int] = None,
-                           category: Optional[str] = None, dedupe: bool = True) -> List[TextContent]:
-        """Get recent items with deduplication"""
+                           category: Optional[str] = None, dedupe: bool = True,
+                           include_analysis: bool = False, include_geopolitical: bool = False) -> List[TextContent]:
+        """Get recent items with optional analysis data (sentiment, geopolitical)"""
         try:
             with Session(engine) as session:
-                query = select(Item).join(Feed)
+                if include_analysis:
+                    # Build SQL query dynamically
+                    since_clause = "AND i.published > :since_dt" if since else ""
+                    feed_clause = "AND i.feed_id = :feed_id" if feed_id else ""
 
-                if since:
-                    from datetime import datetime
-                    since_dt = datetime.fromisoformat(since.replace('Z', '+00:00'))
-                    query = query.where(Item.published > since_dt)
+                    query_str = f"""
+                        SELECT
+                            i.id, i.title, i.description, i.link, i.published, i.feed_id,
+                            ia.sentiment_json, ia.impact_json, ia.model_tag, ia.updated_at
+                        FROM items i
+                        JOIN feeds f ON i.feed_id = f.id
+                        LEFT JOIN item_analysis ia ON i.id = ia.item_id
+                        WHERE 1=1
+                        {since_clause}
+                        {feed_clause}
+                        ORDER BY i.published DESC
+                        LIMIT :limit
+                    """
+                    query_sql = text(query_str)
 
-                if feed_id:
-                    query = query.where(Item.feed_id == feed_id)
+                    params = {"limit": limit}
+                    if since:
+                        from datetime import datetime
+                        params["since_dt"] = datetime.fromisoformat(since.replace('Z', '+00:00'))
+                    if feed_id:
+                        params["feed_id"] = feed_id
 
-                query = query.order_by(Item.published.desc()).limit(limit)
-                items = session.exec(query).all()
+                    rows = session.execute(query_sql, params).fetchall()
 
-                result = {
-                    "ok": True,
-                    "data": {
-                        "items": [{
-                            "id": i.id,
-                            "title": i.title,
-                            "description": i.description,
-                            "link": i.link,
-                            "published": str(i.published) if i.published else None,
-                            "feed_id": i.feed_id
-                        } for i in items]
-                    },
-                    "meta": {"limit": limit, "total": len(items), "dedupe_applied": dedupe},
-                    "errors": []
-                }
+                    items_data = []
+                    for row in rows:
+                        item_dict = {
+                            "id": row[0],
+                            "title": row[1],
+                            "description": row[2],
+                            "link": row[3],
+                            "published": str(row[4]) if row[4] else None,
+                            "feed_id": row[5]
+                        }
+
+                        # Add analysis data if available
+                        if row[6]:  # sentiment_json exists
+                            sentiment_json = row[6]
+                            impact_json = row[7]
+
+                            item_dict["analysis"] = {
+                                "sentiment": sentiment_json.get("overall", {}),
+                                "impact": impact_json.get("overall", 0.0) if impact_json else 0.0,
+                                "urgency": sentiment_json.get("urgency", 0.0),
+                                "model": row[8],
+                                "analyzed_at": str(row[9]) if row[9] else None
+                            }
+
+                            # Include geopolitical data if requested
+                            if include_geopolitical and "geopolitical" in sentiment_json:
+                                item_dict["analysis"]["geopolitical"] = sentiment_json["geopolitical"]
+
+                        items_data.append(item_dict)
+
+                    result = {
+                        "ok": True,
+                        "data": {"items": items_data},
+                        "meta": {
+                            "limit": limit,
+                            "total": len(items_data),
+                            "dedupe_applied": dedupe,
+                            "include_analysis": include_analysis,
+                            "include_geopolitical": include_geopolitical
+                        },
+                        "errors": []
+                    }
+                else:
+                    # Original simple query without analysis
+                    query = select(Item).join(Feed)
+
+                    if since:
+                        from datetime import datetime
+                        since_dt = datetime.fromisoformat(since.replace('Z', '+00:00'))
+                        query = query.where(Item.published > since_dt)
+
+                    if feed_id:
+                        query = query.where(Item.feed_id == feed_id)
+
+                    query = query.order_by(Item.published.desc()).limit(limit)
+                    items = session.exec(query).all()
+
+                    result = {
+                        "ok": True,
+                        "data": {
+                            "items": [{
+                                "id": i.id,
+                                "title": i.title,
+                                "description": i.description,
+                                "link": i.link,
+                                "published": str(i.published) if i.published else None,
+                                "feed_id": i.feed_id
+                            } for i in items]
+                        },
+                        "meta": {"limit": limit, "total": len(items), "dedupe_applied": dedupe},
+                        "errors": []
+                    }
 
                 return [TextContent(type="text", text=safe_json_dumps(result, indent=2))]
         except Exception as e:
@@ -421,47 +496,223 @@ class MCPv2Handlers:
 
     async def items_search(self, q: str, limit: int = 50, offset: int = 0,
                            time_range: Optional[Dict[str, str]] = None, feeds: Optional[List[int]] = None,
-                           categories: Optional[List[str]] = None) -> List[TextContent]:
-        """Search items with advanced filtering"""
+                           categories: Optional[List[str]] = None,
+                           include_analysis: bool = False, include_geopolitical: bool = False) -> List[TextContent]:
+        """Search items with advanced filtering and optional analysis data"""
         try:
             with Session(engine) as session:
-                query = select(Item).join(Feed)
+                if include_analysis:
+                    # Build SQL query dynamically
+                    feed_clause = "AND i.feed_id = ANY(:feeds)" if feeds else ""
+                    time_clause = ""
+                    if time_range:
+                        clauses = []
+                        if time_range.get("from"):
+                            clauses.append("AND i.published >= :from_dt")
+                        if time_range.get("to"):
+                            clauses.append("AND i.published <= :to_dt")
+                        time_clause = " ".join(clauses)
 
-                # Full-text search simulation
-                query = query.where(Item.title.contains(q) | Item.description.contains(q))
+                    query_str = f"""
+                        SELECT
+                            i.id, i.title, i.description, i.link, i.published, i.feed_id,
+                            ia.sentiment_json, ia.impact_json, ia.model_tag, ia.updated_at
+                        FROM items i
+                        JOIN feeds f ON i.feed_id = f.id
+                        LEFT JOIN item_analysis ia ON i.id = ia.item_id
+                        WHERE (i.title ILIKE :query OR i.description ILIKE :query)
+                        {feed_clause}
+                        {time_clause}
+                        ORDER BY i.published DESC
+                        OFFSET :offset
+                        LIMIT :limit
+                    """
+                    query_sql = text(query_str)
 
-                if feeds:
-                    query = query.where(Item.feed_id.in_(feeds))
+                    params = {"query": f"%{q}%", "offset": offset, "limit": limit}
+                    if feeds:
+                        params["feeds"] = feeds
+                    if time_range:
+                        from datetime import datetime
+                        if time_range.get("from"):
+                            params["from_dt"] = datetime.fromisoformat(time_range["from"].replace('Z', '+00:00'))
+                        if time_range.get("to"):
+                            params["to_dt"] = datetime.fromisoformat(time_range["to"].replace('Z', '+00:00'))
 
-                if time_range:
-                    from datetime import datetime
-                    if time_range.get("from"):
-                        from_dt = datetime.fromisoformat(time_range["from"].replace('Z', '+00:00'))
-                        query = query.where(Item.published >= from_dt)
-                    if time_range.get("to"):
-                        to_dt = datetime.fromisoformat(time_range["to"].replace('Z', '+00:00'))
-                        query = query.where(Item.published <= to_dt)
+                    rows = session.execute(query_sql, params).fetchall()
 
-                query = query.offset(offset).limit(limit)
-                items = session.exec(query).all()
+                    items_data = []
+                    for row in rows:
+                        item_dict = {
+                            "id": row[0],
+                            "title": row[1],
+                            "description": row[2],
+                            "link": row[3],
+                            "published": str(row[4]) if row[4] else None,
+                            "feed_id": row[5]
+                        }
 
-                result = {
-                    "ok": True,
-                    "data": {
-                        "items": [{
-                            "id": i.id,
-                            "title": i.title,
-                            "description": i.description,
-                            "link": i.link,
-                            "published": str(i.published) if i.published else None,
-                            "feed_id": i.feed_id
-                        } for i in items]
-                    },
-                    "meta": {"limit": limit, "offset": offset, "total": len(items), "query": q},
-                    "errors": []
-                }
+                        # Add analysis data if available
+                        if row[6]:  # sentiment_json exists
+                            sentiment_json = row[6]
+                            impact_json = row[7]
+
+                            item_dict["analysis"] = {
+                                "sentiment": sentiment_json.get("overall", {}),
+                                "impact": impact_json.get("overall", 0.0) if impact_json else 0.0,
+                                "urgency": sentiment_json.get("urgency", 0.0),
+                                "model": row[8],
+                                "analyzed_at": str(row[9]) if row[9] else None
+                            }
+
+                            # Include geopolitical data if requested
+                            if include_geopolitical and "geopolitical" in sentiment_json:
+                                item_dict["analysis"]["geopolitical"] = sentiment_json["geopolitical"]
+
+                        items_data.append(item_dict)
+
+                    result = {
+                        "ok": True,
+                        "data": {"items": items_data},
+                        "meta": {
+                            "limit": limit,
+                            "offset": offset,
+                            "total": len(items_data),
+                            "query": q,
+                            "include_analysis": include_analysis,
+                            "include_geopolitical": include_geopolitical
+                        },
+                        "errors": []
+                    }
+                else:
+                    # Original simple query without analysis
+                    query = select(Item).join(Feed)
+
+                    # Full-text search simulation
+                    query = query.where(Item.title.contains(q) | Item.description.contains(q))
+
+                    if feeds:
+                        query = query.where(Item.feed_id.in_(feeds))
+
+                    if time_range:
+                        from datetime import datetime
+                        if time_range.get("from"):
+                            from_dt = datetime.fromisoformat(time_range["from"].replace('Z', '+00:00'))
+                            query = query.where(Item.published >= from_dt)
+                        if time_range.get("to"):
+                            to_dt = datetime.fromisoformat(time_range["to"].replace('Z', '+00:00'))
+                            query = query.where(Item.published <= to_dt)
+
+                    query = query.offset(offset).limit(limit)
+                    items = session.exec(query).all()
+
+                    result = {
+                        "ok": True,
+                        "data": {
+                            "items": [{
+                                "id": i.id,
+                                "title": i.title,
+                                "description": i.description,
+                                "link": i.link,
+                                "published": str(i.published) if i.published else None,
+                                "feed_id": i.feed_id
+                            } for i in items]
+                        },
+                        "meta": {"limit": limit, "offset": offset, "total": len(items), "query": q},
+                        "errors": []
+                    }
 
                 return [TextContent(type="text", text=safe_json_dumps(result, indent=2))]
         except Exception as e:
             logger.error(f"Error searching items: {e}")
             return [TextContent(type="text", text=f"Error searching items: {str(e)}")]
+
+    # Schema Discovery Tools
+    async def get_schemas(self, schema_name: Optional[str] = None) -> List[TextContent]:
+        """Get JSON schemas for data structures (items, analysis, geopolitical)"""
+        try:
+            if schema_name:
+                # Return specific schema
+                if schema_name not in SCHEMAS:
+                    available = ", ".join(SCHEMAS.keys())
+                    return [TextContent(
+                        type="text",
+                        text=f"Schema '{schema_name}' not found. Available schemas: {available}"
+                    )]
+
+                result = {
+                    "ok": True,
+                    "data": {
+                        "schema_name": schema_name,
+                        "schema_version": SCHEMA_VERSION,
+                        "schema": SCHEMAS[schema_name]
+                    },
+                    "meta": {"requested": schema_name},
+                    "errors": []
+                }
+            else:
+                # Return all schemas
+                result = {
+                    "ok": True,
+                    "data": {
+                        "schema_version": SCHEMA_VERSION,
+                        "schemas": SCHEMAS,
+                        "available_schemas": list(SCHEMAS.keys())
+                    },
+                    "meta": {"count": len(SCHEMAS)},
+                    "errors": []
+                }
+
+            return [TextContent(type="text", text=safe_json_dumps(result, indent=2))]
+        except Exception as e:
+            logger.error(f"Error getting schemas: {e}")
+            return [TextContent(type="text", text=f"Error getting schemas: {str(e)}")]
+
+    async def get_example_data(self, example_type: str = "item_with_analysis") -> List[TextContent]:
+        """Get example responses for understanding data structures"""
+        try:
+            if example_type not in EXAMPLES:
+                available = ", ".join(EXAMPLES.keys())
+                return [TextContent(
+                    type="text",
+                    text=f"Example type '{example_type}' not found. Available types: {available}"
+                )]
+
+            result = {
+                "ok": True,
+                "data": {
+                    "example_type": example_type,
+                    "example": EXAMPLES[example_type],
+                    "schema_reference": f"See get_schemas(schema_name='{example_type}') for full schema"
+                },
+                "meta": {
+                    "example_type": example_type,
+                    "schema_version": SCHEMA_VERSION
+                },
+                "errors": []
+            }
+
+            return [TextContent(type="text", text=safe_json_dumps(result, indent=2))]
+        except Exception as e:
+            logger.error(f"Error getting example data: {e}")
+            return [TextContent(type="text", text=f"Error getting example data: {str(e)}")]
+
+    async def get_usage_guide(self) -> List[TextContent]:
+        """Get comprehensive usage guide with best practices and field interpretations"""
+        try:
+            result = {
+                "ok": True,
+                "data": {
+                    "guide": USAGE_GUIDE,
+                    "schema_version": SCHEMA_VERSION,
+                    "available_schemas": list(SCHEMAS.keys()),
+                    "available_examples": list(EXAMPLES.keys())
+                },
+                "meta": {"version": SCHEMA_VERSION},
+                "errors": []
+            }
+
+            return [TextContent(type="text", text=safe_json_dumps(result, indent=2))]
+        except Exception as e:
+            logger.error(f"Error getting usage guide: {e}")
+            return [TextContent(type="text", text=f"Error getting usage guide: {str(e)}")]
